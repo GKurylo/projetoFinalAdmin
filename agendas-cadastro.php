@@ -63,9 +63,9 @@ if ($id) {
                                                                                                                                     echo $dados["data_fim"];
                                                                                                                                 } ?>">
                                 </div>
-                                <div class="col-12 ">
+                                <div class="col-12 "><br>
                                     <label for="obs" >Observação:</label>
-                                    <textarea type="textarea" class="form-control" id="obs" name="txtObs" rows="10" cols="33"><?php if ($id) {
+                                    <textarea placeholder="*Campo Não Obrigatório" type="textarea" class="form-control placeholder:text-sm" id="obs" name="txtObs" rows="10" cols="33"><?php if ($id) {
                                                                                                                                     echo $dados["observacao"];
                                                                                                                                 } ?></textarea>
                                 </div>

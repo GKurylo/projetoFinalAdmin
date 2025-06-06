@@ -42,11 +42,11 @@
                                     <td><?php echo $dados['nome']; ?></td>
                                     <td>
                                         <?php
-                                        if ($dados['status'] == 1) {
-                                            echo "Ativo";
-                                        } else {
-                                            echo "Desativo";
-                                        };
+                                           if ($dados['status'] == 1) {
+                                               echo "Ativo";
+                                           } else {
+                                               echo "Desativo";
+                                           };
                                         ?>
 
                                     </td>

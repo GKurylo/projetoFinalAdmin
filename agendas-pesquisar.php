@@ -46,10 +46,17 @@
                                 <tr class="text-center">
                                     <td><?php echo $dados['id']; ?></td>
                                     <td><?php echo $dados['local']; ?></td>
-                                    <td><?php echo $dados['data_inicio']; ?></td>
-                                    <td><?php echo $dados['data_fim']; ?></td>
-                                    <td><button class="btn btn-info btn-sm"
-                                            onclick="mostrarObs('<?php echo htmlspecialchars(addslashes($dados['obs'])); ?>')">
+                                    <td><?php 
+                                        $dataInicio = new DateTime($dados['data_inicio']);
+                                        echo $dataInicio->format('d/m/Y H:i:s') ; ?>
+                                    </td>
+                                    <td><?php 
+                                        $datafim = new DateTime($dados['data_fim']);
+                                        echo $datafim->format('d/m/Y H:i:s') ; ?>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm"
+                                            onclick="mostrarObs('<?php echo htmlspecialchars(addslashes($dados['observacao'])); ?>')">
                                             Ver Observação
                                         </button>   
                                     </td>
@@ -80,8 +87,8 @@
 
     <?php include("app-script.php"); ?>
     <script>
-  function mostrarObs(obs) {
-    alert("Observação:\n" + obs);
+  function mostrarObs(observacao) {
+    alert("Observação:\n" + observacao);
   }
   </script>
 

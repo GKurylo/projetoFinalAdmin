@@ -8,26 +8,32 @@ $usuario = $_POST["txtUsuario"];
 $cargo = $_POST["txtCargo"];
 $status = $_POST["txtStatus"];
 
-if (!$id) {
-    $sql = $conn->prepare("INSERT INTO usuarios SET nome='$nome',
+if (!$nome) {
+    echo "<script>alert('Você deve escrever um nome válido.'); history.back();</script>";
+    exit; // Impede a execução do restante
+} else {
+    if (!$senha) {
+    echo "<script>alert('Você deve escrever uma senha válido.'); history.back();</script>";
+    exit; // Impede a execução do restante
+} else {
+            if (!$id) {
+        $sql = $conn->prepare("INSERT INTO usuarios SET nome='$nome',
                                                      senha='$senha',
                                                      usuario='$usuario',
                                                      cargo='$cargo',
                                                      status='$status'
                                                     ");
-    $sql->execute();
-
-} else {
-    $sql = $conn->prepare("UPDATE usuarios SET nome='$nome',
+        $sql->execute();
+            } else {
+        $sql = $conn->prepare("UPDATE usuarios SET nome='$nome',
                                                     senha='$senha',
                                                     usuario='$usuario',
                                                     cargo='$cargo',
                                                     status='$status'
                                                     WHERE id='$id'
                                                     ");
-    $sql->execute();
-
+        $sql->execute();
+            }
 }
-
+}
 header("location: usuarios-pesquisar.php");
-?>

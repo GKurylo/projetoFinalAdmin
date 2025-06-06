@@ -41,16 +41,24 @@
                                     <td><?php echo "$dados[id]" ?></td>
                                     <td><?php echo "$dados[nome]" ?></td>
                                     <td><?php echo "$dados[usuario]" ?></td>
-                                    <td><?php if ($dados['cargo'] == 1) {
-                                            echo "Professor";
-                                        } else {
+                                    <td>
+                                        <?php
+                                        if ($dados['cargo'] == 1) {
                                             echo "Administrador";
-                                        } ?></td>
-                                    <td><?php if ($dados['status'] == 1) {
+                                        } else {
+                                            echo "Professor";
+                                        }
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        if ($dados['status'] == 1) {
                                             echo "Ativo";
                                         } else {
                                             echo "Bloqueado";
-                                        } ?></td>
+                                        }
+                                        ?>
+                                    </td>
                                     <td class="text-center">
                                         <a href="usuarios-cadastro.php?id=<?php echo $dados['id']; ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                                         <a href="usuarios-deletar.php?id=<?php echo $dados['id']; ?>" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
@@ -72,7 +80,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <?php include("app-footer.php"); ?>
 

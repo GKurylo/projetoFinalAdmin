@@ -19,7 +19,15 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="card p-2">
-					<h1>SISTEMA DE ANGENDAMENTOS</h1>
+					<div class="row">
+						<h3>SISTEMA DE ANGENDAMENTOS</h3>
+					</div>
+					<div class="row">
+						<div class="col-9"></div>
+						<div class="col-3">
+							<a href="noticias-cadastro.php" class="btn btn-primary">Adicionar Noticias</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
