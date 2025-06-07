@@ -45,7 +45,7 @@
                                            if ($dados['status'] == 1) {
                                                echo "Ativo";
                                            } else {
-                                               echo "Desativo";
+                                               echo "Bloqueado";
                                            };
                                         ?>
 

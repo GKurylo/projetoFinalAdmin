@@ -6,7 +6,6 @@
 <head>
 	<title>INDEX</title>
 	<?php include("app-header.php"); ?>
-
 </head>
 
 <body>
@@ -22,10 +21,21 @@
 					<div class="row">
 						<h3>SISTEMA DE ANGENDAMENTOS</h3>
 					</div>
-					<div class="row">
-						<div class="col-9"></div>
-						<div class="col-3">
-							<a href="noticias-cadastro.php" class="btn btn-primary">Adicionar Noticias</a>
+					<div class="row text-center">
+						<div class="col-10 ">
+							aaaaaaaaaaaaa
+						</div>
+						<div class="col-2 col-xs-10">
+							<div class="card overflow-hidden ">
+								<div class="card-body p-0">
+									<div class="dt-do-bx">
+										<div class="draggable-zone dropzoneContainer to-dodroup">
+											<div class="row mb-1"><a href="noticias-cadastro.php" class="btn btn-primary">Adicionar Noticias</a></div>
+											<div class="row"><a href="cursos-cadastro.php" class="btn btn-success">Adicionar Cursos</a></div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

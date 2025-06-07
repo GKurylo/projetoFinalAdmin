@@ -10,12 +10,16 @@ $status = $_POST["txtStatus"];
 
 if (!$nome) {
     echo "<script>alert('Você deve escrever um nome válido.'); history.back();</script>";
-    exit; // Impede a execução do restante
+    exit;
 } else {
     if (!$senha) {
-    echo "<script>alert('Você deve escrever uma senha válido.'); history.back();</script>";
-    exit; // Impede a execução do restante
-} else {
+        echo "<script>alert('Você deve escrever uma senha válido.'); history.back();</script>";
+        exit; 
+    } else {
+        if (!$usuario){
+             echo "<script>alert('Você deve escrever um email válido.'); history.back();</script>";
+            exit; 
+        } else {
             if (!$id) {
         $sql = $conn->prepare("INSERT INTO usuarios SET nome='$nome',
                                                      senha='$senha',
@@ -34,6 +38,7 @@ if (!$nome) {
                                                     ");
         $sql->execute();
             }
-}
+        }
+    }
 }
 header("location: usuarios-pesquisar.php");

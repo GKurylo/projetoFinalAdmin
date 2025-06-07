@@ -3,5 +3,5 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="shortcut icon" type="image/jpg" href="images/favicon.jpg">
+<link rel="shortcut icon" type="image/jpg" href="images/favicon.png">
 <link class="main-css" href="css/style.css" rel="stylesheet">

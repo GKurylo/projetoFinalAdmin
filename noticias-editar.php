@@ -88,6 +88,9 @@ if ($id) {
 
 
     <?php include("app-script.php"); ?>
+    <script>
+      $("#status").val("<?php echo $dados["status"] ?>");
+    </script>
 
 </body>
 

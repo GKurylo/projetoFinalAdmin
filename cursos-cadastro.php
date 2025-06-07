@@ -4,7 +4,7 @@ $id = isset($_GET["id"]) ? $_GET["id"] : "";
 
 if ($id) {
     $sql = $conn->prepare("
-    select * from NOTICIAS where id='$id';
+    select * from Cursos where id='$id';
     ");
 
     $sql->execute();
@@ -30,32 +30,30 @@ if ($id) {
             <div class="row">
                 <div class="card p-2">
 
-                    <h1>Adicione Sua Notícia!</h1>
+                    <h1>Adicione Seu Curso!</h1>
 
                     <div class="row mt-3 ">
-                        <form action="noticias-acao.php" method="post" class="row">
+                        <form action="cursos-acao.php" method="post" class="row">
                             <input type="hidden" name="txtId" value="<?php if ($id) {
                                                                             echo $dados['id'];
                                                                         }; ?>">
 
                             <div class="offset-2 col-8">
-                                <label for="titulo" class="form-label">Titulo:</label>
-                                <input type="text" class="form-control" id="titulo" name="txtTitulo" >
+                                <label for="nome" class="form-label">Nome:</label>
+                                <input type="text" class="form-control" id="nome" name="txtNome" >
                             </div>
 
                             <div class="offset-2 col-8">
-                                <label for="subtitulo" class="form-label">Resumo:</label>
-                                <input type="text" class="form-control" id="resumo" name="txtResumo">
+                                <label for="descricao" class="form-label">Descricao:</label>
+                                <input type="text" class="form-control" id="descricao" name="txtDescricao">
                             </div>
 
-                            <div class="offset-2 col-8">
-                                <label for="texto" class="form-label">Texto:</label>
-                                <input type="text" class="form-control" id="texto" name="txtTexto">
-                            </div>
-
-                            <div class="offset-2 col-8">
-                                <label for="imagem" class="form-label">Imagem:</label>
-                                <input type="text" class="form-control" id="imagem" name="txtImagem">
+                           <div class="offset-2 col-8">
+                                <label for="tipo" class="form-label">Tipo:</label>
+                                <select type="text" class="form-control" id="tipo" name="txtTipo">
+                                    <option value="1" selected>Subsequente</option>
+                                    <option value="0">Integrado</option>
+                                </select>
                             </div>
 
                             <div class="offset-2 col-8">
@@ -65,6 +63,12 @@ if ($id) {
                                     <option value="0">Bloqueado</option>
                                 </select>
                             </div>
+                            
+                            <div class="offset-2 col-8">
+                                <label for="imagem" class="form-label">Imagem:</label>
+                                <input type="text" class="form-control" id="imagem" name="txtImagem">
+                            </div>
+
                             <div class="col-12 text-center">
                                 <input value="Gravar" type="submit" class="btn btn-success mt-3">
                             </div> <br>
@@ -76,14 +80,15 @@ if ($id) {
                             <tr class="table-dark">
                                 <th>ID:</th>
                                 <th>IMAGEM:</th>
-                                <th>TITULO:</th>
-                                <th>RESUMO:</th>
+                                <th>NOME:</th>
+                                <th>DESCRICAO:</th>
+                                 <th>TIPO:</th>
                                 <th>STATUS:</th>
                                 <th>OPÇÕES:</th>
                             </tr>
 
                             <?php
-                            $sql = $conn->prepare(" SELECT * from noticias;");
+                            $sql = $conn->prepare(" SELECT * from Cursos;");
                             $sql->execute();
                             while ($dados = $sql->fetch()) {
                             ?>
@@ -96,24 +101,34 @@ if ($id) {
                                         <?php echo '<img src="' . ($dados['imagem'] ?? '') . '" class="imgBorda" height="120px">'; ?>
                                     </td>
                                     <td>
-                                        <?php echo $dados['titulo'] ?>
+                                        <?php echo $dados['nome'] ?>
                                     </td>
                                     <td>
-                                        <?php echo $dados['resumo'] ?>
+                                        <?php echo $dados['descricao'] ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                           if ($dados['tipo'] == 1) {
+                                               echo "Subsequente";
+                                           } else {
+                                               echo "Integrado";
+                                           };
+                                        ?>
+
                                     </td>
                                     <td>
                                         <?php
                                            if ($dados['status'] == 1) {
                                                echo "Ativo";
                                            } else {
-                                               echo "Bloqueado";
+                                               echo "Desativo";
                                            };
                                         ?>
 
                                     </td>
                                     <td class="text-center">
-                                        <a href="noticias-editar.php?id=<?php echo $dados['id']; ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <a href="noticias-deletar.php?id=<?php echo $dados['id']; ?>" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                        <a href="cursos-editar.php?id=<?php echo $dados['id']; ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a href="cursos-deletar.php?id=<?php echo $dados['id']; ?>" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
 
