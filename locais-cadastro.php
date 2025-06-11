@@ -64,13 +64,17 @@ if ($id) {
 
     <?php include("app-footer.php"); ?>
 
-
     <?php include("app-script.php"); ?>
+    
+    <?php
+    if ($id) {
+    ?>    
     <script>
       $("#status").val("<?php echo $dados["status"] ?>");
     </script>
-    
-
+    <?php
+    }
+    ?>
 
 </body>
 

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTable com Expansão de Linha, Pesquisa e Paginação</title>
+
+    <!-- CDN do DataTables (CSS e JS) -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+    <style>
+        /* Estilo para o botão de expandir (+) */
+        td.details-control {
+            cursor: pointer;
+            background: url('https://cdn.datatables.net/1.10.19/images/details_open.png') no-repeat center center;
+            background-size: 30px 30px;
+        }
+
+        tr.shown td.details-control {
+            background: url('https://cdn.datatables.net/1.10.19/images/details_close.png') no-repeat center center;
+            background-size: 30px 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Exemplo de DataTable com Expansão de Linha, Pesquisa e Paginação</h1>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th></th> <!-- Coluna para o botão de expansão -->
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Cidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Linhas de exemplo -->
+            <tr>
+                <td class="details-control"></td>
+                <td>João</td>
+                <td>25</td>
+                <td>São Paulo</td>
+            </tr>
+            <tr>
+                <td class="details-control"></td>
+                <td>Ana</td>
+                <td>30</td>
+                <td>Rio de Janeiro</td>
+            </tr>
+            <tr>
+                <td class="details-control"></td>
+                <td>Carlos</td>
+                <td>28</td>
+                <td>Curitiba</td>
+            </tr>
+            <tr>
+                <td class="details-control"></td>
+                <td>Maria</td>
+                <td>22</td>
+                <td>Belo Horizonte</td>
+            </tr>
+            <tr>
+                <td class="details-control"></td>
+                <td>Lucas</td>
+                <td>35</td>
+                <td>Fortaleza</td>
+            </tr>
+            <tr>
+                <td class="details-control"></td>
+                <td>Fernanda</td>
+                <td>29</td>
+                <td>Salvador</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            // Inicializa o DataTable com as opções de filtro, paginação e ordenação
+            var table = $('#example').DataTable({
+                // Opções padrão do DataTable
+                paging: true, // Ativa a paginação
+                searching: true, // Ativa o filtro de pesquisa
+                info: true, // Exibe informações sobre a quantidade de registros
+                lengthMenu: [5, 10, 15, 20], // Número de registros por página
+            });
+
+            // Evento de clique na célula de controle de detalhes (expansão)
+            $('#example tbody').on('click', 'td.details-control', function() {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // Se a linha já está expandida, fecha a linha
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Caso contrário, expande e mostra os detalhes
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+
+            // Função que cria o conteúdo da linha expandida
+            function format(d) {
+                return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                    '<tr>' +
+                    '<td><strong>Detalhes:</strong></td>' +
+                    '<td>' + 'Informações adicionais sobre ' + d[1] + '</td>' +
+                    '</tr>' +
+                    '</table>';
+            }
+        });
+    </script>
+
+</body>
+</html>

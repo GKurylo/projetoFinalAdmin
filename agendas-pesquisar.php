@@ -6,7 +6,6 @@
 <head>
     <title>Agendamentos pesquisar</title>
     <?php include("app-header.php"); ?>
-
 </head>
 
 <body>
@@ -23,7 +22,7 @@
                     <p>Verifique os Agandamentos</p>
 
                     <div class="table-responsive mt-3">
-                        <table class="table">
+                        <table class="table" id="tabela">
                             <tr class="table-dark text-center">
                                 <th>ID</th>
                                 <th>LOCAL</th>
@@ -46,19 +45,19 @@
                                 <tr class="text-center">
                                     <td><?php echo $dados['id']; ?></td>
                                     <td><?php echo $dados['local']; ?></td>
-                                    <td><?php 
+                                    <td><?php
                                         $dataInicio = new DateTime($dados['data_inicio']);
-                                        echo $dataInicio->format('d/m/Y H:i:s') ; ?>
+                                        echo $dataInicio->format('d/m/Y H:i:s'); ?>
                                     </td>
-                                    <td><?php 
+                                    <td><?php
                                         $datafim = new DateTime($dados['data_fim']);
-                                        echo $datafim->format('d/m/Y H:i:s') ; ?>
+                                        echo $datafim->format('d/m/Y H:i:s'); ?>
                                     </td>
                                     <td>
                                         <button class="btn btn-info btn-sm"
                                             onclick="mostrarObs('<?php echo htmlspecialchars(addslashes($dados['observacao'])); ?>')">
                                             Ver Observação
-                                        </button>   
+                                        </button>
                                     </td>
                                     <td class="text-center">
                                         <a href="agendas-cadastro.php?id=<?php echo $dados['id']; ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -87,10 +86,13 @@
 
     <?php include("app-script.php"); ?>
     <script>
-  function mostrarObs(observacao) {
-    alert("Observação:\n" + observacao);
-  }
-  </script>
+        function mostrarObs(observacao) {
+            alert("Observação:\n" + observacao);
+        }
+
+       
+    </script>
+
 
 </body>
 
