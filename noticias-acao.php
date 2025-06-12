@@ -6,6 +6,8 @@ $resumo = $_POST["txtResumo"];
 $texto = $_POST["txtTexto"];
 $imagem = $_POST["txtImagem"];
 $status = $_POST["txtStatus"];
+$album = $_POST["txtAlbum"];
+$imagemAlbum = $_POST["txtImagemAlbum"];
 
 if (!$titulo) {
     echo "<script>alert('Campo Titulo Obrigatório!'); history.back();</script>";
@@ -31,7 +33,11 @@ if(!$id){
                              resumo='$resumo',
                              texto='$texto',
                              imagem='$imagem',
-                             status='$status'           
+                             status='$status'
+                             ;
+     insert into imagens set album_id='$album',
+                            imagem='$imagem'
+                                       
     ");
     $sql->execute();
 }else{

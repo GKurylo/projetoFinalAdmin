@@ -44,7 +44,7 @@ if ($id) {
                             </div>
 
                             <div class="offset-2 col-8">
-                                <label for="subtitulo" class="form-label">Resumo:</label>
+                                <label for="resumo" class="form-label">Resumo:</label>
                                 <input type="text" class="form-control" id="resumo" name="txtResumo">
                             </div>
 
@@ -54,8 +54,18 @@ if ($id) {
                             </div>
 
                             <div class="offset-2 col-8">
-                                <label for="imagem" class="form-label">Imagem:</label>
+                                <label for="imagem" class="form-label">Imagem Capa:</label>
                                 <input type="text" class="form-control" id="imagem" name="txtImagem">
+                            </div>
+
+                            <div class="offset-2 col-8">
+                                <label for="album" class="form-label">Album:</label>
+                                <input type="text" class="form-control" id="album" name="txtAlbum">
+                            </div>
+
+                             <div class="offset-2 col-8">
+                                <label for="imagemAlbum" class="form-label">Imagem Album:</label>
+                                <input type="text" class="form-control" id="imagemAlbum" name="txtimagemAlbum">
                             </div>
 
                             <div class="offset-2 col-8">
@@ -75,7 +85,7 @@ if ($id) {
                         <table class="table ">
                             <tr class="table-dark">
                                 <th>ID:</th>
-                                <th>IMAGEM:</th>
+                                <th>CAPA:</th>
                                 <th>TITULO:</th>
                                 <th>RESUMO:</th>
                                 <th>STATUS:</th>

@@ -7,7 +7,7 @@
      <title>LOGIN</title>
 </head>
 
-<body style="background-image:url('images/bg.png'); background-position:center;">
+<body style="background-image:url(''); background-position:center;">
     <div class="authincation fix-wrapper">
         <div class="container h-100">
             <div class="row justify-content-center h-100 align-items-center">
@@ -25,12 +25,12 @@
                                     <h4 class="text-center mb-4">Area Restrita</h4>
                                     <form action="login-acao.php" method="POST">
                                         <div class="mb-3">
-                                            <label class="mb-1 form-label">Usuário:</label>
+                                            <label class="mb-1 form-label" for="usuario">Usuário:</label>
                                             <input type="text" class="form-control" placeholder="Usuário" id="usuario" name="txtUsuario">
                                         </div>
 
                                         <div class="mb-3 position-relative">
-                                            <label class="form-label" for="dz-password">Senha:</label>
+                                            <label class="form-label" for="password">Senha:</label>
                                             <input type="password" class="form-control" placeholder="Senha" id="password" name="txtSenha">
                                         </div> <br>
 

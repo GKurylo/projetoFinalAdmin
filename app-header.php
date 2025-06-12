@@ -3,5 +3,5 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="shortcut icon" type="image/jpg" href="images/logo-topo.png">
+<link rel="shortcut icon" type="image/jpg" href="images/logo.png">
 <link class="main-css" href="css/style.css" rel="stylesheet">

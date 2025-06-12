@@ -46,7 +46,7 @@ if ($id) {
                             </div>
 
                             <div class="offset-2 col-8">
-                                <label for="subtitulo" class="form-label">Resumo:</label>
+                                <label for="resumo" class="form-label">Resumo:</label>
                                 <input type="text" class="form-control" id="resumo" name="txtResumo" value="<?php if($id){
                                                                                                  echo $dados['resumo'];
                                                                                               };?>">
