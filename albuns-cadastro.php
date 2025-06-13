@@ -4,7 +4,7 @@ $id = isset($_GET["id"]) ? $_GET["id"] : "";
 
 if ($id) {
     $sql = $conn->prepare("
-    select * from NOTICIAS where id='$id';
+    select * from ALBUNS where id='$id';
     ");
 
     $sql->execute();
@@ -16,7 +16,7 @@ if ($id) {
 <html lang="pt-BR">
 
 <head>
-    <title>Index</title>
+    <title>Cadastro de Albuns</title>
     <?php include("app-header.php"); ?>
 </head>
 
@@ -30,42 +30,17 @@ if ($id) {
             <div class="row">
                 <div class="card p-2">
 
-                    <h1>Adicione Sua Notícia!</h1>
+                    <h1>Adicione Seu Album!</h1>
 
                     <div class="row mt-3 ">
-                        <form action="noticias-acao.php" method="post" class="row">
+                        <form action="albuns-acao.php" method="post" class="row">
                             <input type="hidden" name="txtId" value="<?php if ($id) {
                                                                             echo $dados['id'];
                                                                         }; ?>">
 
                             <div class="offset-2 col-8">
-                                <label for="titulo" class="form-label">Titulo:</label>
-                                <input type="text" class="form-control" id="titulo" name="txtTitulo" >
-                            </div>
-
-                            <div class="offset-2 col-8">
-                                <label for="resumo" class="form-label">Resumo:</label>
-                                <input type="text" class="form-control" id="resumo" name="txtResumo">
-                            </div>
-
-                            <div class="offset-2 col-8">
-                                <label for="texto" class="form-label">Texto:</label>
-                                <input type="text" class="form-control" id="texto" name="txtTexto">
-                            </div>
-
-                            <div class="offset-2 col-8">
-                                <label for="imagem" class="form-label">Imagem Capa:</label>
-                                <input type="text" class="form-control" id="imagem" name="txtImagem">
-                            </div>
-
-                            <div class="offset-2 col-8">
-                                <label for="album" class="form-label">Album:</label>
-                                <input type="text" class="form-control" id="album" name="txtAlbum">
-                            </div>
-
-                             <div class="offset-2 col-8">
-                                <label for="imagemAlbum" class="form-label">Imagem Album:</label>
-                                <input type="text" class="form-control" id="imagemAlbum" name="txtimagemAlbum">
+                                <label for="nome" class="form-label">NOME:</label>
+                                <input type="text" class="form-control" id="nome" name="txtNome" >
                             </div>
 
                             <div class="offset-2 col-8">
@@ -85,15 +60,13 @@ if ($id) {
                         <table class="table ">
                             <tr class="table-dark">
                                 <th>ID:</th>
-                                <th>CAPA:</th>
-                                <th>TITULO:</th>
-                                <th>RESUMO:</th>
+                                <th>NOME:</th>
                                 <th>STATUS:</th>
                                 <th>OPÇÕES:</th>
                             </tr>
 
                             <?php
-                            $sql = $conn->prepare(" SELECT * from noticias;");
+                            $sql = $conn->prepare(" SELECT * from albuns;");
                             $sql->execute();
                             while ($dados = $sql->fetch()) {
                             ?>
@@ -102,14 +75,8 @@ if ($id) {
                                     <td>
                                         <?php echo $dados['id'] ?>
                                     </td>
-                                    <td style="width: 150px;">
-                                        <?php echo '<img src="' . ($dados['imagem'] ?? '') . '" class="imgBorda" height="120px">'; ?>
-                                    </td>
                                     <td>
-                                        <?php echo $dados['titulo'] ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $dados['resumo'] ?>
+                                        <?php echo $dados['nome'] ?>
                                     </td>
                                     <td>
                                         <?php
@@ -122,8 +89,8 @@ if ($id) {
 
                                     </td>
                                     <td class="text-center">
-                                        <a href="noticias-editar.php?id=<?php echo $dados['id']; ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <a href="noticias-deletar.php?id=<?php echo $dados['id']; ?>" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                        <a href="albuns-editar.php?id=<?php echo $dados['id']; ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a href="albuns-deletar.php?id=<?php echo $dados['id']; ?>" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
 

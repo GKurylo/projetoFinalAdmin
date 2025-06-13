@@ -24,30 +24,8 @@ include("conexao.php");
 						<h3>SISTEMA DE ANGENDAMENTOS</h3>
 					</div>
 					<div class="row text-center">
-						<div class="col-12 col-md-9 mb-3 mb-md-0">
+						<div>
 							<div id="calendar" style="width: 100%; max-width: 100%; max-height: 700px; overflow-x: auto;"></div>
-						</div>
-						<div class="col-12 col-md-3">
-
-							<div class="row">
-								<!-- Botão 1 -->
-								<div class="col-12 text-center d-flex flex-column justify-content-center align-items-center mb-3" style="height: 38vh;">
-									<a href="noticias-cadastro.php" class="btn btn-primary d-flex align-items-center justify-content-center" style="width: 100%; height: 100%;">
-										<div class="w-100">
-											<i class="fas fa-plus-circle mr-2"></i>
-											Adicionar Notícias
-										</div>
-									</a>
-								</div>
-
-								<!-- Botão 2 -->
-								<div class="col-12 text-center d-flex flex-column justify-content-center align-items-center" style="height: 38vh;">
-									<a href="cursos-cadastro.php" class="btn btn-success d-flex align-items-center justify-content-center" style="width: 100%; height: 100%;">
-										<i class="fas fa-check-circle mr-2"></i>
-										Adicionar Cursos
-									</a>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
