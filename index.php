@@ -8,6 +8,7 @@ include("conexao.php");
 <head>
 	<title>INDEX</title>
 	<?php include("app-header.php"); ?>
+
 </head>
 
 <body>
@@ -43,6 +44,11 @@ include("conexao.php");
 
 	<!-- Idioma Português (Brasil) para o FullCalendar -->
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/dist/locale/pt-br.js"></script>
+	<style>
+		.fc-scrollgrid-section-sticky {
+			z-index: 1 !important;
+		}
+	</style>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');

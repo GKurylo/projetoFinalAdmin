@@ -18,6 +18,16 @@ if ($id) {
 <head>
     <title>INDEX</title>
     <?php include("app-header.php"); ?>
+
+    <!-- Dropzone CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
+    <style>
+        .dropzone {
+            border: 2px dashed #007bff;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+    </style>
 </head>
 
 <body>
@@ -40,33 +50,42 @@ if ($id) {
 
                             <div class="offset-2 col-8">
                                 <label for="nome" class="form-label">Nome:</label>
-                                <input type="text" class="form-control" id="nome" name="txtNome" >
+                                <input type="text" class="form-control" id="nome" name="txtNome" value="<?php echo $dados['nome'] ?? ''; ?>">
                             </div>
 
                             <div class="offset-2 col-8">
                                 <label for="descricao" class="form-label">Descricao:</label>
-                                <input type="text" class="form-control" id="descricao" name="txtDescricao">
+                                <input type="text" class="form-control" id="descricao" name="txtDescricao" value="<?php echo $dados['descricao'] ?? ''; ?>">
                             </div>
 
-                           <div class="offset-2 col-8">
+                            <div class="offset-2 col-8">
                                 <label for="tipo" class="form-label">Tipo:</label>
                                 <select type="text" class="form-control" id="tipo" name="txtTipo">
-                                    <option value="1" selected>Subsequente</option>
-                                    <option value="0">Integrado</option>
+                                    <option value="1" <?php if (($dados['tipo'] ?? '') == 1) echo 'selected'; ?>>Subsequente</option>
+                                    <option value="0" <?php if (($dados['tipo'] ?? '') == 0) echo 'selected'; ?>>Integrado</option>
                                 </select>
                             </div>
 
                             <div class="offset-2 col-8">
                                 <label for="status" class="form-label">Status:</label>
                                 <select type="text" class="form-control" id="status" name="txtStatus">
-                                    <option value="1" selected>Ativo</option>
-                                    <option value="0">Bloqueado</option>
+                                    <option value="1" <?php if (($dados['status'] ?? '') == 1) echo 'selected'; ?>>Ativo</option>
+                                    <option value="0" <?php if (($dados['status'] ?? '') == 0) echo 'selected'; ?>>Bloqueado</option>
                                 </select>
                             </div>
                             
                             <div class="offset-2 col-8">
-                                <label for="imagem" class="form-label">Imagem:</label>
-                                <input type="text" class="form-control" id="imagem" name="txtImagem">
+                                <label for="imagem" class="form-label">Capa:</label>
+                                <input type="text" class="form-control" id="imagem" name="txtImagem" value="<?php echo $dados['imagem'] ?? ''; ?>">
+                            </div>
+
+                            <!-- NOVO CAMPO DROPZONE IMAGEM ALBUM -->
+                            <div class="offset-2 col-8">
+                                <label for="imagemAlbum" class="form-label">Imagem Album:</label>
+
+                                <div id="dropzoneImagemAlbum" class="dropzone"></div>
+
+                                <input type="hidden" id="imagemAlbumHidden" name="txtImagemAlbum" value="<?php echo $dados['imagemAlbum'] ?? ''; ?>">
                             </div>
 
                             <div class="col-12 text-center">
@@ -79,10 +98,10 @@ if ($id) {
                         <table class="table ">
                             <tr class="table-dark">
                                 <th>ID:</th>
-                                <th>IMAGEM:</th>
+                                <th>CAPA:</th>
                                 <th>NOME:</th>
                                 <th>DESCRICAO:</th>
-                                 <th>TIPO:</th>
+                                <th>TIPO:</th>
                                 <th>STATUS:</th>
                                 <th>OPÇÕES:</th>
                             </tr>
@@ -147,7 +166,39 @@ if ($id) {
 
     <?php include("app-script.php"); ?>
 
-</body>
+    <!-- Dropzone JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
 
+    <script>
+        Dropzone.autoDiscover = false;
+
+        // Dropzone para Imagem Album
+        const dzImagemAlbum = new Dropzone("#dropzoneImagemAlbum", {
+            url: "upload.php",       // ajuste para seu arquivo de upload
+            paramName: "file",
+            maxFiles: 1,
+            acceptedFiles: "image/*",
+            addRemoveLinks: true,
+            init: function() {
+                this.on("success", function(file, response) {
+                    let json = JSON.parse(response);
+                    document.getElementById("imagemAlbumHidden").value = json.nomeArquivo;
+                });
+                this.on("removedfile", function(file) {
+                    document.getElementById("imagemAlbumHidden").value = "";
+                });
+
+                <?php if (!empty($dados['imagemAlbum'])): ?>
+                let mockFile = { name: "Imagem Album Atual", size: 12345 };
+                this.emit("addedfile", mockFile);
+                this.emit("thumbnail", mockFile, "<?php echo $dados['imagemAlbum']; ?>");
+                this.emit("complete", mockFile);
+                document.getElementById("imagemAlbumHidden").value = "<?php echo $dados['imagemAlbum']; ?>";
+                <?php endif; ?>
+            }
+        });
+    </script>
+
+</body>
 
 </html>

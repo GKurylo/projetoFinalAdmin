@@ -40,7 +40,7 @@ if ($id) {
 
                             <div class="offset-2 col-8">
                                 <label for="nome" class="form-label">NOME:</label>
-                                <input type="text" class="form-control" id="nome" name="txtNome" >
+                                <input type="text" class="form-control" id="nome" name="txtNome">
                             </div>
 
                             <div class="offset-2 col-8">
@@ -80,16 +80,21 @@ if ($id) {
                                     </td>
                                     <td>
                                         <?php
-                                           if ($dados['status'] == 1) {
-                                               echo "Ativo";
-                                           } else {
-                                               echo "Bloqueado";
-                                           };
+                                        if ($dados['status'] == 1) {
+                                            echo "Ativo";
+                                        } else {
+                                            echo "Bloqueado";
+                                        };
                                         ?>
 
                                     </td>
                                     <td class="text-center">
                                         <a href="albuns-editar.php?id=<?php echo $dados['id']; ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+
+                                        <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFotos" data-album-id="<?php echo $dados['id']; ?>">
+                                            <i class="fa-solid fa-image"></i>
+                                        </a>
+
                                         <a href="albuns-deletar.php?id=<?php echo $dados['id']; ?>" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
@@ -104,10 +109,36 @@ if ($id) {
         </div>
     </div>
 
+
+    <!-- Modal album -->
+    <div class="modal fade" id="modalFotos" tabindex="-1" aria-labelledby="modalFotosLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Gerenciar Fotos do Álbum</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe src="" id="iframeFotos" frameborder="0" style="width: 100%; height: 500px;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <?php include("app-footer.php"); ?>
 
 
     <?php include("app-script.php"); ?>
+    
+    <script>
+       var modalFotos = document.getElementById('modalFotos');
+    modalFotos.addEventListener('show.bs.modal', function(event) {
+        let button = event.relatedTarget;
+        let albumId = button.getAttribute('data-album-id');
+        document.getElementById('iframeFotos').src = 'albuns-listar.php?id=' + albumId;
+    });
+    </script>
 
 </body>
 

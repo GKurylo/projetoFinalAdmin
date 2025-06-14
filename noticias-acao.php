@@ -7,7 +7,6 @@ $texto = $_POST["txtTexto"];
 $imagem = $_POST["txtImagem"];
 $status = $_POST["txtStatus"];
 $album = $_POST["txtAlbum"];
-$imagemAlbum = $_POST["txtImagemAlbum"];
 
 if (!$titulo) {
     echo "<script>alert('Campo Titulo Obrigatório!'); history.back();</script>";
