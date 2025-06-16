@@ -38,8 +38,16 @@
 						<!-- Botão 3 -->
 						<div class="col-4 col-xs-12">
 							<a href="albuns-cadastro.php" class="btn btn-warning">
-								<i class="fas fa-plus-circle mr-2	"></i>
+								<i class="fas fa-plus-circle mr-2"></i>
 								Adicionar Albuns
+							</a>
+						</div>
+
+						<!-- Botão 3 -->
+						<div class="col-4 col-xs-12">
+							<a href="horario-editar.php" class="btn btn-warning">
+								<i class="fas fa-plus-circle mr-2"></i>
+								Editar horario
 							</a>
 						</div>
 					</div>
