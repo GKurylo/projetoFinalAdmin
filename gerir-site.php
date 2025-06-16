@@ -21,9 +21,8 @@
 
 						<!-- Botão 1 -->
 						<div class="col-4 col-xs-12">
-							<a href="noticias-cadastro.php" class="btn btn-primary">
-								<i class="fas fa-plus-circle mr-2"></i>
-								Adicionar Notícias
+							<a href="noticias-cadastro.php" class="btn btn-success">
+								<img src="images/127 Sem Título_20250613200444.png" style="width: 200px;">
 							</a>
 						</div>
 
@@ -37,15 +36,15 @@
 						
 						<!-- Botão 3 -->
 						<div class="col-4 col-xs-12">
-							<a href="albuns-cadastro.php" class="btn btn-warning">
+							<a href="albuns-cadastro.php" class="btn btn-success">
 								<i class="fas fa-plus-circle mr-2"></i>
 								Adicionar Albuns
 							</a>
 						</div>
-
-						<!-- Botão 3 -->
+						
+						<!-- Botão 4 -->
 						<div class="col-4 col-xs-12">
-							<a href="horario-editar.php" class="btn btn-warning">
+							<a href="horario-editar.php" class="btn btn-warning mt-2">
 								<i class="fas fa-plus-circle mr-2"></i>
 								Editar horario
 							</a>
