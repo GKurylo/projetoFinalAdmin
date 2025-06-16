@@ -6,11 +6,10 @@ $secretaria = $_POST["txtSecretaria"];
 $aulas = $_POST["txtAulas"];
 
 
-    $sql = $conn->prepare("INSERT INTO horarios SET secretaria='$secretaria',
+     $sql = $conn->prepare("UPDATE horarios SET secretaria='$secretaria',
                                                      aulas='$aulas'
                                                     ");
     $sql->execute();
-
    
 
 
