@@ -17,11 +17,7 @@ if ($id) {
 
 <head>
     <title>Index</title>
-    <?php include("app-header.php"); ?>
-
-    <!-- Dropzone CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
-   
+    <?php include("app-header.php"); ?>   
 </head>
 
 <body>
@@ -58,7 +54,7 @@ if ($id) {
                             </div>
 
                             <div class="offset-2 col-8">
-                                <label for="imagem" class="form-label">Imagem Capa:</label>
+                                <label for="imagem" class="form-label">Capa:</label>
                                 <input type="text" class="form-control" id="imagem" name="txtImagem" value="<?php echo $dados['imagem'] ?? ''; ?>">
                             </div>
 
@@ -166,32 +162,11 @@ if ($id) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
 
     <script>
-        Dropzone.autoDiscover = false;
-
-        const dzAlbum = new Dropzone("#dropzoneImagemAlbum", {
-            url: "upload.php",       // arquivo que vai receber o upload
-            paramName: "file",       // nome do parâmetro do arquivo no POST
-            maxFiles: 1,
-            acceptedFiles: "image/*",
-            addRemoveLinks: true,
-            init: function() {
-                this.on("success", function(file, response) {
-                    // resposta JSON: {"nomeArquivo":"uploads/arquivo.jpg"}
-                    let json = JSON.parse(response);
-                    document.getElementById("imagemAlbumHidden").value = json.nomeArquivo;
-                });
-                this.on("removedfile", function(file) {
-                    document.getElementById("imagemAlbumHidden").value = "";
-                });
-
-                <?php if (!empty($dados['imagemAlbum'])): ?>
-                let mockFile = { name: "Imagem atual", size: 12345 };
-                this.emit("addedfile", mockFile);
-                this.emit("thumbnail", mockFile, "<?php echo $dados['imagemAlbum']; ?>");
-                this.emit("complete", mockFile);
-                document.getElementById("imagemAlbumHidden").value = "<?php echo $dados['imagemAlbum']; ?>";
-                <?php endif; ?>
-            }
+        var modalFotos = document.getElementById('modalFotos');
+        modalFotos.addEventListener('show.bs.modal', function(event) {
+            let button = event.relatedTarget;
+            let albumId = button.getAttribute('data-album-id');
+            document.getElementById('iframeFotos').src = 'albuns-listar.php?id=' + albumId;
         });
     </script>
 

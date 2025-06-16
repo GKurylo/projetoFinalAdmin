@@ -128,14 +128,14 @@ if ($id) {
 
 
     <?php include("app-script.php"); ?>
-    
+
     <script>
-       var modalFotos = document.getElementById('modalFotos');
-    modalFotos.addEventListener('show.bs.modal', function(event) {
-        let button = event.relatedTarget;
-        let albumId = button.getAttribute('data-album-id');
-        document.getElementById('iframeFotos').src = 'albuns-listar.php?id=' + albumId;
-    });
+        var modalFotos = document.getElementById('modalFotos');
+        modalFotos.addEventListener('show.bs.modal', function(event) {
+            let button = event.relatedTarget;
+            let albumId = button.getAttribute('data-album-id');
+            document.getElementById('iframeFotos').src = 'albuns-listar.php?id=' + albumId;
+        });
     </script>
 
 </body>

@@ -4,7 +4,7 @@ $id = isset($_GET["id"]) ? $_GET["id"] : "";
 
 if ($id) {
     $sql = $conn->prepare("
-    select * from Cursos where id='$id';
+    select * from CURSOS where id='$id';
     ");
 
     $sql->execute();
@@ -19,8 +19,6 @@ if ($id) {
     <title>INDEX</title>
     <?php include("app-header.php"); ?>
 
-    <!-- Dropzone CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
     <style>
         .dropzone {
             border: 2px dashed #007bff;
@@ -73,19 +71,10 @@ if ($id) {
                                     <option value="0" <?php if (($dados['status'] ?? '') == 0) echo 'selected'; ?>>Bloqueado</option>
                                 </select>
                             </div>
-                            
+
                             <div class="offset-2 col-8">
                                 <label for="imagem" class="form-label">Capa:</label>
                                 <input type="text" class="form-control" id="imagem" name="txtImagem" value="<?php echo $dados['imagem'] ?? ''; ?>">
-                            </div>
-
-                            <!-- NOVO CAMPO DROPZONE IMAGEM ALBUM -->
-                            <div class="offset-2 col-8">
-                                <label for="imagemAlbum" class="form-label">Imagem Album:</label>
-
-                                <div id="dropzoneImagemAlbum" class="dropzone"></div>
-
-                                <input type="hidden" id="imagemAlbumHidden" name="txtImagemAlbum" value="<?php echo $dados['imagemAlbum'] ?? ''; ?>">
                             </div>
 
                             <div class="col-12 text-center">
@@ -127,26 +116,31 @@ if ($id) {
                                     </td>
                                     <td>
                                         <?php
-                                           if ($dados['tipo'] == 1) {
-                                               echo "Subsequente";
-                                           } else {
-                                               echo "Integrado";
-                                           };
+                                        if ($dados['tipo'] == 1) {
+                                            echo "Subsequente";
+                                        } else {
+                                            echo "Integrado";
+                                        };
                                         ?>
 
                                     </td>
                                     <td>
                                         <?php
-                                           if ($dados['status'] == 1) {
-                                               echo "Ativo";
-                                           } else {
-                                               echo "Desativo";
-                                           };
+                                        if ($dados['status'] == 1) {
+                                            echo "Ativo";
+                                        } else {
+                                            echo "Desativo";
+                                        };
                                         ?>
 
                                     </td>
                                     <td class="text-center">
                                         <a href="cursos-editar.php?id=<?php echo $dados['id']; ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+
+                                        <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFotos" data-album-id="<?php echo $dados['id']; ?>">
+                                            <i class="fa-solid fa-image"></i>
+                                        </a>
+
                                         <a href="cursos-deletar.php?id=<?php echo $dados['id']; ?>" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
@@ -161,41 +155,33 @@ if ($id) {
         </div>
     </div>
 
+    <div class="modal fade" id="modalFotos" tabindex="-1" aria-labelledby="modalFotosLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Gerenciar Fotos do Álbum</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe src="" id="iframeFotos" frameborder="0" style="width: 100%; height: 500px;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <?php include("app-footer.php"); ?>
 
 
     <?php include("app-script.php"); ?>
 
-    <!-- Dropzone JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
 
     <script>
-        Dropzone.autoDiscover = false;
-
-        // Dropzone para Imagem Album
-        const dzImagemAlbum = new Dropzone("#dropzoneImagemAlbum", {
-            url: "upload.php",       // ajuste para seu arquivo de upload
-            paramName: "file",
-            maxFiles: 1,
-            acceptedFiles: "image/*",
-            addRemoveLinks: true,
-            init: function() {
-                this.on("success", function(file, response) {
-                    let json = JSON.parse(response);
-                    document.getElementById("imagemAlbumHidden").value = json.nomeArquivo;
-                });
-                this.on("removedfile", function(file) {
-                    document.getElementById("imagemAlbumHidden").value = "";
-                });
-
-                <?php if (!empty($dados['imagemAlbum'])): ?>
-                let mockFile = { name: "Imagem Album Atual", size: 12345 };
-                this.emit("addedfile", mockFile);
-                this.emit("thumbnail", mockFile, "<?php echo $dados['imagemAlbum']; ?>");
-                this.emit("complete", mockFile);
-                document.getElementById("imagemAlbumHidden").value = "<?php echo $dados['imagemAlbum']; ?>";
-                <?php endif; ?>
-            }
+        var modalFotos = document.getElementById('modalFotos');
+        modalFotos.addEventListener('show.bs.modal', function(event) {
+            let button = event.relatedTarget;
+            let albumId = button.getAttribute('data-album-id');
+            document.getElementById('iframeFotos').src = 'albuns-listar.php?id=' + albumId;
         });
     </script>
 
