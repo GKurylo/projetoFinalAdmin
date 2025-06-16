@@ -60,7 +60,7 @@ if ($id) {
                             </div>
 
                             <div class="offset-2 col-8">
-                                <label for="imagem" class="form-label">Imagem:</label>
+                                <label for="imagem" class="form-label">Capa:</label>
                                 <input type="text" class="form-control" id="imagem" name="txtImagem" value="<?php if($id){
                                                                                                  echo $dados['imagem'];
                                                                                               };?>">

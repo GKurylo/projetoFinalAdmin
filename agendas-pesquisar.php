@@ -4,7 +4,7 @@
 <html lang="pt-BR">
 
 <head>
-    <title>Agendamentos pesquisar</title>
+    <title>Listagem de Agendamentos</title>
     <?php include("app-header.php"); ?>
 </head>
 

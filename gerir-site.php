@@ -29,8 +29,7 @@
 						<!-- Botão 2 -->
 						<div class="col-4 col-xs-12">
 							<a href="cursos-cadastro.php" class="btn btn-success">
-								<i class="fas fa-plus-circle mr-2"></i>
-								Adicionar Cursos
+								<img src="images/127 Sem Título_20250616200822.png" style="width: 200px;">
 							</a>
 						</div>
 						

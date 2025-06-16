@@ -65,7 +65,7 @@
 				</li>
 				<li>
 					<a href="usuarios-pesquisar.php" aria-expanded="false">
-						<span class="nav-text">Usuarios</span>
+						<span class="nav-text">Usuários</span>
 					</a>
 				</li>
 				<li>

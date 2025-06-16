@@ -3,7 +3,7 @@ $id = isset($_GET["id"]) ? $_GET["id"] : "";
  
 if ($id) {
     $sql = $conn->prepare("
-    select * from locais where id='$id';
+    select * from LOCAIS where id='$id';
     ");
 
     $sql->execute();
@@ -15,7 +15,7 @@ if ($id) {
 <html lang="pt-BR">
 
 <head>
-    <title>Adição de Locais</title>
+    <title>Cadastro de Locais</title>
     <?php include("app-header.php"); ?>
 
 </head>
@@ -29,7 +29,7 @@ if ($id) {
         <div class="container-fluid">
             <div class="row">
                 <div class="card p-2">
-                    <h1>Adição de Locais</h1>
+                    <h1>Cadastro de Locais</h1>
 
                     <div class="row mt-3">
                         <form action="locais-acao.php" method="post" class="row">

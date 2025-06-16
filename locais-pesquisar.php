@@ -4,7 +4,7 @@
 <html lang="pt-BR">
 
 <head>
-    <title>Listegem de Locais</title>
+    <title>Listagem de Locais</title>
     <?php include("app-header.php"); ?>
 
 </head>

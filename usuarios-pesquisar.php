@@ -4,7 +4,7 @@
 <html lang="pt-BR">
 
 <head>
-    <title>Usuarios Pesquisar</title>
+    <title>Listagem de Usuários</title>
     <?php include("app-header.php"); ?>
 
 </head>
@@ -19,8 +19,8 @@
             <div class="row">
                 <div class="card p-2">
 
-                    <h1>Listagem de Usuarios</h1>
-                    <p>Verifique todos os Usuarios</p>
+                    <h1>Listagem de Usuários</h1>
+                    <p>Verifique todos os Usuários</p>
 
                     <div class="table-responsive mt-3">
                         <table class="table">

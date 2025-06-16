@@ -11,7 +11,7 @@ if ($id) {
 <html lang="pt-BR">
 
 <head>
-    <title>Usuarios Pesquisar</title>
+    <title>Cadastro de Usuário</title>
     <?php include("app-header.php"); ?>
 
 </head>

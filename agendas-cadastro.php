@@ -11,7 +11,7 @@ if ($id) {
 <html lang="pt-BR">
 
 <head>
-    <title>Agendamentos Cadastro</title>
+    <title>Cadastro de Agendamentos</title>
     <?php include("app-header.php"); ?>
 </head>
 
@@ -26,7 +26,7 @@ if ($id) {
                 <div class="card p-2">
 
                     <h1>Cadastro de Agendamentos</h1>
-                    <p>Cadastre Agendamentos</p>
+                    <p>Cadastre Seu Agendamento</p>
                     <div class="row mt-3">
                         <form action="agendas-acao.php" method="post">
                             <input type="hidden" name="txtid" value="<?php if ($id) {
