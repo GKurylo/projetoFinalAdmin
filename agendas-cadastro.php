@@ -52,16 +52,9 @@ if ($id) {
 
                                 </div>
                                 <div class="col-12 col-md-4 ">
-                                    <label for="dataInicio">Data Inicio</label>
-                                    <input type="datetime-local" class="form-control" id="dataInicio" name="txtDataInicio" value="<?php if ($id) {
-                                                                                                                                        echo $dados["data_inicio"];
-                                                                                                                                    } ?>">
-                                </div>
-                                <div class="col-12 col-md-4 ">
-                                    <label for="dataFinal">Data Final</label>
-                                    <input type="datetime-local" class="form-control" id="dataFinal" name="txtDataFinal" value="<?php if ($id) {
-                                                                                                                                    echo $dados["data_fim"];
-                                                                                                                                } ?>">
+                                    <label for="data">Data</label>
+                                    <select class="form-control" id="data" name="txtData">
+                                    </select>  
                                 </div>
                                 <div class="col-12 "><br>
                                     <label for="obs" >Observação:</label>
