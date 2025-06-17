@@ -109,7 +109,13 @@ include("conexao.php");
 
 				dateClick: function (info) {
 					let dataSelecionada = info.dateStr;
-					document.getElementById('dataSelecionada').innerText = dataSelecionada;
+
+					// Formata a data para d/m/y
+					let partes = dataSelecionada.split("-");
+					let dataFormatada = partes[2] + "/" + partes[1] + "/" + partes[0];
+
+					document.getElementById('dataSelecionada').innerText = dataFormatada;
+
 					let modalLocais = new bootstrap.Modal(document.getElementById('modalLocais'));
 					modalLocais.show();
 				},
@@ -117,45 +123,88 @@ include("conexao.php");
 				events: [
 					<?php
 					$eventos = [];
-					$sql = $conn->prepare("SELECT agendas.*, locais.nome as local FROM agendas LEFT JOIN locais ON locais.id = agendas.local_id");
+					$sql = $conn->prepare("SELECT agendas.*, locais.nome as local,locais.cor FROM agendas LEFT JOIN locais ON locais.id = agendas.local_id");
 					$sql->execute();
 					while ($dados = $sql->fetch()) {
-						$eventos[] = "{ title: " . json_encode($dados['local']) . ", start: " . json_encode($dados['data']) . " }";
+						$eventos[] = "{ title: " . json_encode($dados['local']) . ", start: " . json_encode($dados['data']) . ", color: " . json_encode($dados['cor']) . " }";
 					}
 					echo implode(',', $eventos);
 					?>
 				]
-
 			});
 			calendar.render();
 
 			// Quando o usuário clicar em um horário
 			document.getElementById('horariosList').addEventListener('click', function (e) {
 				if (e.target && e.target.matches('button.list-group-item')) {
-					let horarioSelecionado = e.target.textContent.trim();
-					let data = document.getElementById('inputData').value;
+					let dataOriginal = document.getElementById('inputData').value;  // Deve estar no formato yyyy-mm-dd
 					let localId = document.getElementById('inputLocalId').value;
+					let horarioSelecionado = e.target.textContent.trim();
 
-					// Enviar via AJAX
-					fetch('salvar-agendamento.php', {
+					fetch('agendas-acao.php', {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/x-www-form-urlencoded'
 						},
-						body: `data=${data}&horario=${horarioSelecionado}&local_id=${localId}`
+						body: `txtData=${dataOriginal}&txtHorario=${horarioSelecionado}&txtlocal=${localId}`
 					})
+
 						.then(response => response.text())
 						.then(result => {
 							alert(result);
-							location.reload();  // Atualiza a página para mostrar no calendário
+							location.reload();
 						})
 						.catch(error => {
 							console.error('Erro:', error);
 						});
 				}
 			});
+
+			//abrir modal de horários):
+			document.querySelectorAll('.local-btn').forEach(function (button) {
+				button.addEventListener('click', function () {
+					let localId = this.getAttribute('data-id');
+					let localNome = this.getAttribute('data-nome');
+					let dataSelecionada = document.getElementById('dataSelecionada').innerText;
+
+					document.getElementById('localSelecionado').innerText = localNome;
+					document.getElementById('dataSelecionada2').innerText = dataSelecionada;
+					document.getElementById('inputLocalId').value = localId;
+					document.getElementById('inputData').value = dataSelecionada;
+
+					carregarHorariosExemplo();
+
+					var modalLocaisEl = document.getElementById('modalLocais');
+					var modalLocais = bootstrap.Modal.getInstance(modalLocaisEl);
+					modalLocais.hide();
+
+					var modalHorarios = new bootstrap.Modal(document.getElementById('modalHorarios'));
+					modalHorarios.show();
+				});
+			});
+
 		});
+
+		// Função para carregar horários fixos
+		function carregarHorariosExemplo() {
+			let horarios = [
+				"07:30", "08:20", "09:10", "10:10", "11:00",
+				"13:00", "13:50", "14:40", "15:40", "16:30",
+				"18:40", "19:30", "20:30", "21:20", "22:10"
+			];
+
+			let lista = document.getElementById('horariosList');
+			lista.innerHTML = "";
+
+			horarios.forEach(function (hora) {
+				let botao = document.createElement('button');
+				botao.className = "list-group-item list-group-item-action";
+				botao.innerText = hora;
+				lista.appendChild(botao);
+			});
+		}
 	</script>
+
 
 </body>
 

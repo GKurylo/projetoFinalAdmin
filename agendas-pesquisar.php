@@ -26,8 +26,8 @@
                             <tr class="table-dark text-center">
                                 <th>ID</th>
                                 <th>LOCAL</th>
-                                <th>INICIO</th>
-                                <th>FINAL</th>
+                                <th>DATA</th>
+                                <th>HORÁRIO</th>
                                 <th>OBSERVAÇÃO</th>
                                 <th>OPÇÕES</th>
                             </tr>
@@ -46,12 +46,12 @@
                                     <td><?php echo $dados['id']; ?></td>
                                     <td><?php echo $dados['local']; ?></td>
                                     <td><?php
-                                        $dataInicio = new DateTime($dados['data_inicio']);
-                                        echo $dataInicio->format('d/m/Y H:i:s'); ?>
+                                        $data = new DateTime($dados['data']);
+                                        echo $data->format('d/m/Y'); ?>
                                     </td>
                                     <td><?php
-                                        $datafim = new DateTime($dados['data_fim']);
-                                        echo $datafim->format('d/m/Y H:i:s'); ?>
+                                        $horario = new DateTime($dados['horario']);
+                                        echo $horario->format('H:i:s'); ?>
                                     </td>
                                     <td>
                                         <button class="btn btn-info btn-sm"

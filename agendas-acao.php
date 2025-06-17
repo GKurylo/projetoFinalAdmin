@@ -1,68 +1,69 @@
+
 <?php
-require("conexao.php");
+include "conexao.php";
 
-$id = $_POST["txtid"];
-$local = $_POST["txtlocais"];
-$data_inicio = $_POST["txtDataInicio"];
-$data_final = $_POST["txtDataFinal"];
-$obs = $_POST["txtObs"];
+$local = $_POST['txtlocal'] ?? '';
+$data = $_POST['txtData'] ?? '';
+$horario = $_POST['txtHorario'] ?? '';
+$id = $_POST['txtid'] ?? '';  // Vem quando for atualização
 
-if ($local == 0) {
-    echo "<script>alert('Campo local Obrigatório!'); history.back();</script>";
+// Converter data de dd/mm/yyyy para yyyy-mm-dd se necessário
+if (strpos($data, '/') !== false) {
+    $partes = explode('/', $data);
+    $data = $partes[2] . '-' . $partes[1] . '-' . $partes[0];
+}
+
+// Verificar campos obrigatórios
+if (empty($local) || empty($data) || empty($horario)) {
+    echo "Erro: Campos obrigatórios faltando.";
     exit;
 }
 
-if ($data_inicio == $data_final) {
-    echo "<script>alert('Campo data de inicio e fim não podem ser iguais!'); history.back();</script>";
-    exit;
-}
-
-if (!$data_inicio || !$data_final) {
-    echo "<script>alert('Campo data de inicio e fim Obrigatório!'); history.back();</script>";
-    exit;
-}
-
-if ($data_inicio > $data_final) {
-    echo "<script>alert('Você deve selecionar uma data inicial anterior à data final.'); history.back();</script>";
-    exit;
-}
-
-// Verificar conflitos de agendamento
-$sql_verificar = $conn->prepare("
-    SELECT * FROM agendas 
-    WHERE local_id = :local 
-      AND id != :id
-      AND (
-            (data_inicio <= :data_final AND data_fim >= :data_inicio)
-          )
+$verifica = $conn->prepare("
+    SELECT COUNT(*) FROM agendas
+    WHERE local_id = :local AND data = :data AND horario = :horario
 ");
-$sql_verificar->bindParam(":local", $local);
-$sql_verificar->bindParam(":id", $id);
-$sql_verificar->bindParam(":data_inicio", $data_inicio);
-$sql_verificar->bindParam(":data_final", $data_final);
-$sql_verificar->execute();
+$verifica->bindParam(":local", $local);
+$verifica->bindParam(":data", $data);
+$verifica->bindParam(":horario", $horario);
+$verifica->execute();
+$existe = $verifica->fetchColumn();
 
-if ($sql_verificar->rowCount() > 0) {
-    echo "<script>alert('Já existe um agendamento para este local nesse período. Escolha outro horário.'); history.back();</script>";
+if ($existe > 0) {
+    echo "Erro: Este horário já está ocupado para o local selecionado.";
     exit;
 }
 
-// Inserir ou atualizar
-if (!$id) {
-    $sql = $conn->prepare("INSERT INTO agendas (local_id, data_inicio, data_fim, observacao) 
-                           VALUES (:local, :data_inicio, :data_final, :obs)");
+if (empty($id)) {
+    // Se não tiver ID → INSERT
+    $sql = $conn->prepare("
+        INSERT INTO agendas (local_id, data, horario) 
+        VALUES (:local, :data, :horario)
+    ");
+    $sql->bindParam(":local", $local);
+    $sql->bindParam(":data", $data);
+    $sql->bindParam(":horario", $horario);
+
+    if ($sql->execute()) {
+        echo "Agendado com sucesso!";
+    } else {
+        echo "Erro ao salvar agendamento.";
+    }
 } else {
-    $sql = $conn->prepare("UPDATE agendas SET local_id = :local, data_inicio = :data_inicio, data_fim = :data_final, observacao = :obs 
-                           WHERE id = :id");
+    // Se tiver ID → UPDATE
+    $sql = $conn->prepare("
+        UPDATE agendas
+        SET local_id = :local, data = :data, horario = :horario
+        WHERE id = :id
+    ");
+    $sql->bindParam(":local", $local);
+    $sql->bindParam(":data", $data);
+    $sql->bindParam(":horario", $horario);
     $sql->bindParam(":id", $id);
+
+    if ($sql->execute()) {
+        echo "Agendamento atualizado com sucesso!";
+    } else {
+        echo "Erro ao atualizar agendamento.";
+    }
 }
-
-$sql->bindParam(":local", $local);
-$sql->bindParam(":data_inicio", $data_inicio);
-$sql->bindParam(":data_final", $data_final);
-$sql->bindParam(":obs", $obs);
-$sql->execute();
-
-header("Location: agendas-pesquisar.php");
-exit;
-?>
