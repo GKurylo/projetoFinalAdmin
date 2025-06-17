@@ -30,7 +30,7 @@ if ($id) {
             <div class="row">
                 <div class="card p-2">
 
-                    <h1>Adicione Seu Album!</h1>
+                    <h1>Edite Seu Album! - <?php echo $dados['nome']; ?></h1>
 
                     <div class="row mt-3 ">
                         <form action="albuns-acao.php" method="post" class="row">

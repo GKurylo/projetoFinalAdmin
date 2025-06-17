@@ -30,7 +30,7 @@ if ($id) {
             <div class="row">
                 <div class="card p-2">
 
-                    <h1>Edite Seu Curso!</h1>
+                    <h1>Edite Seu Curso! - <?php echo $dados['nome']; ?></h1>
 
                     <div class="row mt-3 ">
                         <form action="cursos-acao.php" method="post" class="row">

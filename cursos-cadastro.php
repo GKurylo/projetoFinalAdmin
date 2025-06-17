@@ -19,13 +19,6 @@ if ($id) {
     <title>INDEX</title>
     <?php include("app-header.php"); ?>
 
-    <style>
-        .dropzone {
-            border: 2px dashed #007bff;
-            padding: 20px;
-            background: #f9f9f9;
-        }
-    </style>
 </head>
 
 <body>
@@ -74,7 +67,7 @@ if ($id) {
 
                             <div class="offset-2 col-8">
                                 <label for="imagem" class="form-label">Capa:</label>
-                                <input type="text" class="form-control" id="imagem" name="txtImagem" value="<?php echo $dados['imagem'] ?? ''; ?>">
+                                <input type="file" class="form-control" id="imagem" name="txtImagem" value="<?php echo $dados['imagem'] ?? ''; ?>">
                             </div>
 
                             <div class="col-12 text-center">
@@ -96,7 +89,7 @@ if ($id) {
                             </tr>
 
                             <?php
-                            $sql = $conn->prepare(" SELECT * from Cursos;");
+                            $sql = $conn->prepare(" SELECT * from CURSOS;");
                             $sql->execute();
                             while ($dados = $sql->fetch()) {
                             ?>

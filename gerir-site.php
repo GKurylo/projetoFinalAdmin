@@ -22,14 +22,14 @@
 						<!-- Botão 1 -->
 						<div class="col-4 col-xs-12">
 							<a href="noticias-cadastro.php" class="btn btn-success">
-								<img src="images/127 Sem Título_20250613200444.png" style="width: 200px;">
+								<img src="images/127 Sem Título_20250616204541.png" class="img-fluid">
 							</a>
 						</div>
 
 						<!-- Botão 2 -->
 						<div class="col-4 col-xs-12">
 							<a href="cursos-cadastro.php" class="btn btn-success">
-								<img src="images/127 Sem Título_20250616200822.png" style="width: 200px;">
+								<img src="images/127 Sem Título_20250616211314.png" class="img-fluid">
 							</a>
 						</div>
 						
