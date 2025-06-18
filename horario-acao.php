@@ -1,6 +1,6 @@
 <?php
 require("conexao.php");
-
+include("login-validar.php");
 
 $secretaria = $_POST["txtSecretaria"];
 $aulas = $_POST["txtAulas"];

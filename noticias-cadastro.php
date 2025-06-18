@@ -1,4 +1,5 @@
 <?php include('conexao.php');
+include("login-validar.php");
 
 $id = isset($_GET["id"]) ? $_GET["id"] : "";
 

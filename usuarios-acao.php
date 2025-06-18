@@ -1,5 +1,6 @@
 <?php
 require("conexao.php");
+include("login-validar.php");
 
 $id = $_POST["txtid"];
 $nome = $_POST["txtNome"];

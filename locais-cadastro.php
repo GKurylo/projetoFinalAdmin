@@ -1,6 +1,9 @@
-<?php include("conexao.php"); 
+<?php 
+include("conexao.php");
+include("login-validar.php");
+
 $id = isset($_GET["id"]) ? $_GET["id"] : "";
- 
+
 if ($id) {
     $sql = $conn->prepare("
     select * from LOCAIS where id='$id';
@@ -17,7 +20,6 @@ if ($id) {
 <head>
     <title>Cadastro de Locais</title>
     <?php include("app-header.php"); ?>
-
 </head>
 
 <body>
@@ -52,6 +54,7 @@ if ($id) {
                                 </select>
                             </div>
 
+
                             <div class="col-12 text-center">
                                 <input value="Gravar" type="submit" class="btn btn-success mt-3">
                             </div>
@@ -65,16 +68,16 @@ if ($id) {
     <?php include("app-footer.php"); ?>
 
     <?php include("app-script.php"); ?>
-    
     <?php
     if ($id) {
-    ?>    
-    <script>
-      $("#status").val("<?php echo $dados["status"] ?>");
-    </script>
+    ?>
+        <script>
+            $("#status").val("<?php echo $dados["status"] ?>");
+        </script>
     <?php
     }
     ?>
+    
 
 </body>
 

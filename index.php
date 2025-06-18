@@ -1,5 +1,6 @@
-<?php include("login-validar.php");
+<?php 
 include("conexao.php");
+include("login-validar.php");
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +9,6 @@ include("conexao.php");
 <head>
 	<title>INDEX</title>
 	<?php include("app-header.php"); ?>
-
 </head>
 
 <body>
@@ -43,7 +43,7 @@ include("conexao.php");
 									// Exemplo de locais fixos ou vindo do banco
 									$sqlLocais = $conn->query("SELECT id, nome FROM locais");
 									while ($local = $sqlLocais->fetch()) {
-										?>
+									?>
 										<button class="btn btn-outline-primary w-100 my-1 local-btn"
 											data-id="<?php echo $local['id']; ?>" data-nome="<?php echo $local['nome']; ?>">
 											<?php echo $local['nome']; ?>
@@ -100,14 +100,32 @@ include("conexao.php");
 	?>
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
+		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				initialView: 'dayGridMonth',
 				locale: 'pt-br',
 				height: 'auto',
-
-				dateClick: function (info) {
+				headerToolbar: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+				},
+				views: {
+					dayGridMonth: {
+						buttonText: 'Mês'
+					},
+					timeGridWeek: {
+						buttonText: 'Semana'
+					},
+					timeGridDay: {
+						buttonText: 'Dia'
+					},
+					listWeek: {
+						buttonText: 'Lista'
+					}
+				},
+				dateClick: function(info) {
 					let dataSelecionada = info.dateStr;
 
 					// Formata a data para d/m/y
@@ -135,19 +153,19 @@ include("conexao.php");
 			calendar.render();
 
 			// Quando o usuário clicar em um horário
-			document.getElementById('horariosList').addEventListener('click', function (e) {
+			document.getElementById('horariosList').addEventListener('click', function(e) {
 				if (e.target && e.target.matches('button.list-group-item')) {
-					let dataOriginal = document.getElementById('inputData').value;  // Deve estar no formato yyyy-mm-dd
+					let dataOriginal = document.getElementById('inputData').value; // Deve estar no formato yyyy-mm-dd
 					let localId = document.getElementById('inputLocalId').value;
 					let horarioSelecionado = e.target.textContent.trim();
 
 					fetch('agendas-acao.php', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/x-www-form-urlencoded'
-						},
-						body: `txtData=${dataOriginal}&txtHorario=${horarioSelecionado}&txtlocal=${localId}`
-					})
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/x-www-form-urlencoded'
+							},
+							body: `txtData=${dataOriginal}&txtHorario=${horarioSelecionado}&txtlocal=${localId}`
+						})
 
 						.then(response => response.text())
 						.then(result => {
@@ -161,8 +179,8 @@ include("conexao.php");
 			});
 
 			//abrir modal de horários):
-			document.querySelectorAll('.local-btn').forEach(function (button) {
-				button.addEventListener('click', function () {
+			document.querySelectorAll('.local-btn').forEach(function(button) {
+				button.addEventListener('click', function() {
 					let localId = this.getAttribute('data-id');
 					let localNome = this.getAttribute('data-nome');
 					let dataSelecionada = document.getElementById('dataSelecionada').innerText;
@@ -196,7 +214,7 @@ include("conexao.php");
 			let lista = document.getElementById('horariosList');
 			lista.innerHTML = "";
 
-			horarios.forEach(function (hora) {
+			horarios.forEach(function(hora) {
 				let botao = document.createElement('button');
 				botao.className = "list-group-item list-group-item-action";
 				botao.innerText = hora;

@@ -1,4 +1,7 @@
-<?php include('conexao.php');
+<?php 
+include("login-validar.php");
+include("conexao.php");
+
 
 $id = isset($_GET["id"]) ? $_GET["id"] : "";
 
@@ -17,6 +20,9 @@ if ($id) {
 
 <head>
     <title>INDEX</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
     <?php include("app-header.php"); ?>
 
 </head>
@@ -34,7 +40,7 @@ if ($id) {
                     <h1>Adicione Seu Curso!</h1>
 
                     <div class="row mt-3 ">
-                        <form action="cursos-acao.php" method="post" class="row">
+                        <form action="cursos-acao.php" method="post" class="row" enctype="multipart/form-data">
                             <input type="hidden" name="txtId" value="<?php if ($id) {
                                                                             echo $dados['id'];
                                                                         }; ?>">
@@ -68,6 +74,22 @@ if ($id) {
                             <div class="offset-2 col-8">
                                 <label for="imagem" class="form-label">Capa:</label>
                                 <input type="file" class="form-control" id="imagem" name="txtImagem" value="<?php echo $dados['imagem'] ?? ''; ?>">
+                            </div>
+
+                            <div class="offset-2 col-8">
+                                <label for="status" class="form-label">Locais:</label>
+                                <select id="meuSelect" class="select2 form-control" multiple="multiple" name="txtLocais">
+                                    <option value="0">Sem local</option>
+                                    <?php
+                                        $sqllocal = $conn->prepare("SELECT * FROM locais where status=1");
+                                        $sqllocal->execute();
+                                        while ($dadoslocal = $sqllocal->fetch()) { ?>
+                                            <option value='<?php echo $dadoslocal["id"]; ?>'
+                                                <?php if ($id && $dados["local_id"] == $dadoslocal["id"]) echo "selected"; ?>>
+                                                <?php echo $dadoslocal["nome"]; ?>
+                                            </option>
+                                        <?php } ?>
+                                </select>
                             </div>
 
                             <div class="col-12 text-center">
@@ -167,6 +189,8 @@ if ($id) {
 
 
     <?php include("app-script.php"); ?>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
 
     <script>
@@ -175,6 +199,15 @@ if ($id) {
             let button = event.relatedTarget;
             let albumId = button.getAttribute('data-album-id');
             document.getElementById('iframeFotos').src = 'albuns-listar.php?id=' + albumId;
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#meuSelect').select2({
+                placeholder: "Selecione as opções",
+                allowClear: true,
+                theme: 'classic',
+            });
         });
     </script>
 

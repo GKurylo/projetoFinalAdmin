@@ -1,4 +1,6 @@
-<?php include('conexao.php');
+<?php 
+include('conexao.php');
+include("login-validar.php");
 
 $id = isset($_GET["id"]) ? intval($_GET["id"]) : 0;
 $listar = isset($_GET["listar"]) ? true : false;
