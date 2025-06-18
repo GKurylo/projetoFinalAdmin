@@ -1,11 +1,10 @@
--- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18/06/2025 às 00:43
+-- Tempo de geração: 18/06/2025 às 21:52
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,6 +36,14 @@ CREATE TABLE `agendas` (
   `horario` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `agendas`
+--
+
+INSERT INTO `agendas` (`id`, `usuario_id`, `local_id`, `data`, `arquivo`, `observacao`, `horario`) VALUES
+(44, NULL, 1, '2025-06-02', NULL, NULL, '07:30:00'),
+(45, NULL, 1, '2025-06-03', NULL, 'fg', '07:30:00');
+
 -- --------------------------------------------------------
 
 --
@@ -55,7 +62,7 @@ CREATE TABLE `albuns` (
 --
 
 INSERT INTO `albuns` (`id`, `nome`, `data`, `status`) VALUES
-(4, 'Quadra', '0000-00-00', 1);
+(6, 'Desenvolvimento de Sistema', '2025-06-18', 1);
 
 -- --------------------------------------------------------
 
@@ -68,15 +75,6 @@ CREATE TABLE `albuns_imagens` (
   `album_id` int(11) NOT NULL,
   `nome_arquivo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `albuns_imagens`
---
-
-INSERT INTO `albuns_imagens` (`id`, `album_id`, `nome_arquivo`) VALUES
-(2, 4, 'uploads/img_684cbbfd243bc3.00401316.jpg'),
-(4, 4, 'uploads/684cbdceba936_olho.jpg'),
-(5, 4, 'uploads/684cbe7724b13_t1j8eek9cwed1.jpeg');
 
 -- --------------------------------------------------------
 
@@ -245,13 +243,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `agendas`
 --
 ALTER TABLE `agendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de tabela `albuns`
 --
 ALTER TABLE `albuns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `albuns_imagens`

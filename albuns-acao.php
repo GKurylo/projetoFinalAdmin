@@ -3,12 +3,16 @@
 $id = $_POST["txtId"];
 $nome = $_POST["txtNome"];
 $status = $_POST["txtStatus"];
-$data = $_POST["txtData"];
+$data = date('Y-m-d');
 
 if (!$nome) {
     echo "<script>alert('Campo nome Obrigatório!'); history.back();</script>";
     exit; // Impede a execução do restante
-} else {
+}
+if (!$data) {
+    echo "<script>alert('Campo data Obrigatório!'); history.back();</script>";
+    exit; // Impede a execução do restante
+}
 
     if (!$id) {
         //inserir
@@ -27,5 +31,5 @@ if (!$nome) {
     ");
         $sql->execute();
     }
-}
+
 header("location:albuns-cadastro.php");
