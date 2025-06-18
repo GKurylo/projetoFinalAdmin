@@ -1,4 +1,4 @@
-<?php 
+<?php
 include("conexao.php");
 include("login-validar.php");
 ?>
@@ -8,11 +8,15 @@ include("login-validar.php");
 
 <head>
 	<title>INDEX</title>
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css"
+		rel="stylesheet" />
 	<?php include("app-header.php"); ?>
 </head>
 
 <body>
-
 
 	<?php include("app-lateral.php"); ?>
 
@@ -22,7 +26,7 @@ include("login-validar.php");
 			<div class="row">
 				<div class="card p-2">
 					<div class="row text-center">
-						<h3>SISTEMA DE ANGENDAMENTOS</h3>
+						<h3>SISTEMA DE AGENDAMENTOS</h3>
 					</div>
 					<div class="row text-center">
 						<div>
@@ -30,6 +34,7 @@ include("login-validar.php");
 								style="width: 100%; max-width: 100%; max-height: 700px; overflow-x: auto;"></div>
 						</div>
 					</div>
+
 					<!-- Modal de Locais -->
 					<div class="modal fade" id="modalLocais" tabindex="-1" aria-hidden="true">
 						<div class="modal-dialog">
@@ -40,10 +45,9 @@ include("login-validar.php");
 								</div>
 								<div class="modal-body">
 									<?php
-									// Exemplo de locais fixos ou vindo do banco
 									$sqlLocais = $conn->query("SELECT id, nome FROM locais");
 									while ($local = $sqlLocais->fetch()) {
-									?>
+										?>
 										<button class="btn btn-outline-primary w-100 my-1 local-btn"
 											data-id="<?php echo $local['id']; ?>" data-nome="<?php echo $local['nome']; ?>">
 											<?php echo $local['nome']; ?>
@@ -53,6 +57,7 @@ include("login-validar.php");
 							</div>
 						</div>
 					</div>
+
 					<!-- Modal de Horários -->
 					<div class="modal fade" id="modalHorarios" tabindex="-1" aria-hidden="true">
 						<div class="modal-dialog">
@@ -65,9 +70,13 @@ include("login-validar.php");
 								<div class="modal-body">
 									<input type="hidden" name="data" id="inputData">
 									<input type="hidden" name="local_id" id="inputLocalId">
-									<div id="horariosList" class="list-group">
-										<!-- Horários via JS -->
-									</div>
+									<select id="horariosSelect" class="form-control" multiple>
+										<!-- Os horários serão carregados via JavaScript -->
+									</select>
+								</div>
+								<div class="modal-footer">
+									<button type="button" id="btnSalvarAgendamento" class="btn btn-primary">Salvar
+										Agendamentos</button>
 								</div>
 							</form>
 						</div>
@@ -79,28 +88,25 @@ include("login-validar.php");
 	</div>
 
 	<?php include("app-footer.php"); ?>
-
-
-
 	<?php include("app-script.php"); ?>
 
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js"></script>
-
-	<!-- Idioma Português (Brasil) para o FullCalendar -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/dist/locale/pt-br.js"></script>
+
 	<style>
 		.fc-scrollgrid-section-sticky {
 			z-index: 1 !important;
 		}
 	</style>
+
 	<?php
-	// DEBUG TEMPORÁRIO:
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 	?>
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function () {
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				initialView: 'dayGridMonth',
@@ -112,36 +118,23 @@ include("login-validar.php");
 					right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
 				},
 				views: {
-					dayGridMonth: {
-						buttonText: 'Mês'
-					},
-					timeGridWeek: {
-						buttonText: 'Semana'
-					},
-					timeGridDay: {
-						buttonText: 'Dia'
-					},
-					listWeek: {
-						buttonText: 'Lista'
-					}
+					dayGridMonth: { buttonText: 'Mês' },
+					timeGridWeek: { buttonText: 'Semana' },
+					timeGridDay: { buttonText: 'Dia' },
+					listWeek: { buttonText: 'Lista' }
 				},
-				dateClick: function(info) {
+				dateClick: function (info) {
 					let dataSelecionada = info.dateStr;
-
-					// Formata a data para d/m/y
 					let partes = dataSelecionada.split("-");
 					let dataFormatada = partes[2] + "/" + partes[1] + "/" + partes[0];
-
 					document.getElementById('dataSelecionada').innerText = dataFormatada;
-
 					let modalLocais = new bootstrap.Modal(document.getElementById('modalLocais'));
 					modalLocais.show();
 				},
-
 				events: [
 					<?php
 					$eventos = [];
-					$sql = $conn->prepare("SELECT agendas.*, locais.nome as local,locais.cor FROM agendas LEFT JOIN locais ON locais.id = agendas.local_id");
+					$sql = $conn->prepare("SELECT agendas.*, locais.nome as local, locais.cor FROM agendas LEFT JOIN locais ON locais.id = agendas.local_id");
 					$sql->execute();
 					while ($dados = $sql->fetch()) {
 						$eventos[] = "{ title: " . json_encode($dados['local']) . ", start: " . json_encode($dados['data']) . ", color: " . json_encode($dados['cor']) . " }";
@@ -152,35 +145,8 @@ include("login-validar.php");
 			});
 			calendar.render();
 
-			// Quando o usuário clicar em um horário
-			document.getElementById('horariosList').addEventListener('click', function(e) {
-				if (e.target && e.target.matches('button.list-group-item')) {
-					let dataOriginal = document.getElementById('inputData').value; // Deve estar no formato yyyy-mm-dd
-					let localId = document.getElementById('inputLocalId').value;
-					let horarioSelecionado = e.target.textContent.trim();
-
-					fetch('agendas-acao.php', {
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/x-www-form-urlencoded'
-							},
-							body: `txtData=${dataOriginal}&txtHorario=${horarioSelecionado}&txtlocal=${localId}`
-						})
-
-						.then(response => response.text())
-						.then(result => {
-							alert(result);
-							location.reload();
-						})
-						.catch(error => {
-							console.error('Erro:', error);
-						});
-				}
-			});
-
-			//abrir modal de horários):
-			document.querySelectorAll('.local-btn').forEach(function(button) {
-				button.addEventListener('click', function() {
+			document.querySelectorAll('.local-btn').forEach(function (button) {
+				button.addEventListener('click', function () {
 					let localId = this.getAttribute('data-id');
 					let localNome = this.getAttribute('data-nome');
 					let dataSelecionada = document.getElementById('dataSelecionada').innerText;
@@ -190,7 +156,7 @@ include("login-validar.php");
 					document.getElementById('inputLocalId').value = localId;
 					document.getElementById('inputData').value = dataSelecionada;
 
-					carregarHorariosExemplo();
+					carregarHorarios();
 
 					var modalLocaisEl = document.getElementById('modalLocais');
 					var modalLocais = bootstrap.Modal.getInstance(modalLocaisEl);
@@ -204,27 +170,66 @@ include("login-validar.php");
 		});
 
 		// Função para carregar horários fixos
-		function carregarHorariosExemplo() {
+		function carregarHorarios() {
 			let horarios = [
 				"07:30", "08:20", "09:10", "10:10", "11:00",
 				"13:00", "13:50", "14:40", "15:40", "16:30",
 				"18:40", "19:30", "20:30", "21:20", "22:10"
 			];
 
-			let lista = document.getElementById('horariosList');
-			lista.innerHTML = "";
+			let select = document.getElementById('horariosSelect');
+			select.innerHTML = "";
 
-			horarios.forEach(function(hora) {
-				let botao = document.createElement('button');
-				botao.className = "list-group-item list-group-item-action";
-				botao.innerText = hora;
-				lista.appendChild(botao);
+			horarios.forEach(function (hora) {
+				let option = document.createElement('option');
+				option.value = hora;
+				option.text = hora;
+				select.appendChild(option);
+			});
+
+			$('#horariosSelect').select2({
+				placeholder: "Selecione os horários",
+				width: '100%',
+				theme: 'classic',
+				dropdownParent: $('#modalHorarios')
 			});
 		}
+
+		// Salvar múltiplos agendamentos
+		document.addEventListener('DOMContentLoaded', function () {
+			document.getElementById('btnSalvarAgendamento').addEventListener('click', function () {
+				let horariosSelecionados = $('#horariosSelect').val();
+				let data = document.getElementById('inputData').value;
+				let localId = document.getElementById('inputLocalId').value;
+
+				if (!horariosSelecionados || horariosSelecionados.length === 0) {
+					alert("Por favor, selecione pelo menos um horário.");
+					return;
+				}
+
+				horariosSelecionados.forEach(function (horario) {
+					fetch('salvar-agendamento.php', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+						},
+						body: `data=${data}&horario=${horario}&local_id=${localId}`
+					})
+						.then(response => response.text())
+						.then(result => {
+							console.log(result);
+						})
+						.catch(error => {
+							console.error('Erro:', error);
+						});
+				});
+
+				alert("Agendamentos salvos!");
+				location.reload();
+			});
+		});
 	</script>
 
-
 </body>
-
 
 </html>

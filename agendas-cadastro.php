@@ -53,11 +53,13 @@ if ($id) {
                                     </select>
 
                                 </div>
+                                
                                 <div class="col-12 col-md-4 ">
                                     <label for="data">Data</label>
                                     <select class="form-control" id="data" name="txtData">
                                     </select>  
                                 </div>
+                                
                                 <div class="col-12 "><br>
                                     <label for="obs" >Observação:</label>
                                     <textarea placeholder="*Campo Não Obrigatório" type="textarea" class="form-control placeholder:text-sm" id="obs" name="txtObs" rows="10" cols="33"><?php if ($id) {

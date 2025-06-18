@@ -1,4 +1,4 @@
-<?php 
+<?php
 include('conexao.php');
 include("login-validar.php");
 
@@ -37,8 +37,9 @@ if ($id) {
                     <div class="row mt-3 ">
                         <form action="albuns-acao.php" method="post" class="row">
                             <input type="hidden" name="txtId" value="<?php if ($id) {
-                                                                            echo $dados['id'];
-                                                                        }; ?>">
+                                echo $dados['id'];
+                            }
+                            ; ?>">
 
                             <div class="offset-2 col-8">
                                 <label for="nome" class="form-label">NOME:</label>
@@ -63,6 +64,7 @@ if ($id) {
                             <tr class="table-dark">
                                 <th>ID:</th>
                                 <th>NOME:</th>
+                                <th>CRIADO EM:</th>
                                 <th>STATUS:</th>
                                 <th>OPÇÕES:</th>
                             </tr>
@@ -71,7 +73,7 @@ if ($id) {
                             $sql = $conn->prepare(" SELECT * from albuns;");
                             $sql->execute();
                             while ($dados = $sql->fetch()) {
-                            ?>
+                                ?>
 
                                 <tr>
                                     <td>
@@ -81,21 +83,30 @@ if ($id) {
                                         <?php echo $dados['nome'] ?>
                                     </td>
                                     <td>
+                                        <?php $dataCriacao = new DateTime($dados['data']);
+                                        echo $dataCriacao->format('d/m/Y');  ?>
+                                    </td>
+                                    <td>
                                         <?php
                                         if ($dados['status'] == 1) {
                                             echo "Ativo";
                                         } else {
                                             echo "Bloqueado";
-                                        };
+                                        }
+                                        ;
                                         ?>
 
                                     </td>
                                     <td class="text-center">
-                                        <a href="albuns-editar.php?id=<?php echo $dados['id']; ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a href="albuns-editar.php?id=<?php echo $dados['id']; ?>"
+                                            class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                                        <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFotos" data-album-id="<?php echo $dados['id']; ?>"><i class="fa-solid fa-image"></i></a>
+                                        <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#modalFotos" data-album-id="<?php echo $dados['id']; ?>"><i
+                                                class="fa-solid fa-image"></i></a>
 
-                                        <a href="albuns-deletar.php?id=<?php echo $dados['id']; ?>" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                        <a href="albuns-deletar.php?id=<?php echo $dados['id']; ?>"
+                                            class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
 
@@ -133,7 +144,7 @@ if ($id) {
 
     <script>
         var modalFotos = document.getElementById('modalFotos');
-        modalFotos.addEventListener('show.bs.modal', function(event) {
+        modalFotos.addEventListener('show.bs.modal', function (event) {
             let button = event.relatedTarget;
             let albumId = button.getAttribute('data-album-id');
             document.getElementById('iframeFotos').src = 'albuns-listar.php?id=' + albumId;
