@@ -1,8 +1,8 @@
-
 <?php
 include "conexao.php";
 
-$local = $_POST['txtlocal'] ?? '';
+$observacao = $_POST['txtObservacao'] ?? '';
+$local = $_POST['txtLocal'] ?? '';
 $data = $_POST['txtData'] ?? '';
 $horario = $_POST['txtHorario'] ?? '';
 $id = $_POST['txtid'] ?? '';  // Vem quando for atualização
@@ -37,12 +37,14 @@ if ($existe > 0) {
 if (empty($id)) {
     // Se não tiver ID → INSERT
     $sql = $conn->prepare("
-        INSERT INTO agendas (local_id, data, horario) 
-        VALUES (:local, :data, :horario)
-    ");
+    INSERT INTO agendas (local_id, data, horario, observacao) 
+    VALUES (:local, :data, :horario, :observacao)
+");
     $sql->bindParam(":local", $local);
     $sql->bindParam(":data", $data);
     $sql->bindParam(":horario", $horario);
+    $sql->bindParam(":observacao", $observacao);
+
 
     if ($sql->execute()) {
         echo "Agendado com sucesso!";
@@ -52,13 +54,14 @@ if (empty($id)) {
 } else {
     // Se tiver ID → UPDATE
     $sql = $conn->prepare("
-        UPDATE agendas
-        SET local_id = :local, data = :data, horario = :horario
-        WHERE id = :id
-    ");
+    UPDATE agendas
+    SET local_id = :local, data = :data, horario = :horario, observacao = :observacao
+    WHERE id = :id
+");
     $sql->bindParam(":local", $local);
     $sql->bindParam(":data", $data);
     $sql->bindParam(":horario", $horario);
+    $sql->bindParam(":observacao", $observacao);
     $sql->bindParam(":id", $id);
 
     if ($sql->execute()) {
