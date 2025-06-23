@@ -138,17 +138,24 @@ include("login-validar.php");
 					document.getElementById('dataSelecionada').innerText = dataFormatada;
 					new bootstrap.Modal(document.getElementById('modalLocais')).show();
 				},
-				events: [
-					<?php
-					$eventos = [];
-					$sql = $conn->prepare("SELECT agendas.*, locais.nome as local, locais.cor FROM agendas LEFT JOIN locais ON locais.id = agendas.local_id");
-					$sql->execute();
-					while ($dados = $sql->fetch()) {
-						$eventos[] = "{ title: " . json_encode($dados['local']) . ", start: " . json_encode($dados['data']) . ", color: " . json_encode($dados['cor']) . " }";
-					}
-					echo implode(',', $eventos);
-					?>
-				]
+				events: <?php
+				$eventos = [];
+				$sql = $conn->prepare("SELECT agendas.*, locais.nome AS local, locais.cor FROM agendas LEFT JOIN locais ON locais.id = agendas.local_id");
+				$sql->execute();
+				$sql->setFetchMode(PDO::FETCH_ASSOC);
+
+				while ($dados = $sql->fetch()) {
+					$eventos[] = [
+						'title' => $dados['local'],
+						'start' => $dados['data'] . 'T' . $dados['horario'],
+						'end' => $dados['data'] . 'T' . $dados['horariofin'],
+						'color' => $dados['cor']
+					];
+				}
+
+				echo json_encode($eventos);
+				
+				?>
 			});
 			calendar.render();
 
