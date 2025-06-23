@@ -1,8 +1,9 @@
+-- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18/06/2025 às 21:52
+-- Tempo de geração: 23/06/2025 às 21:58
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -33,16 +34,18 @@ CREATE TABLE `agendas` (
   `data` date DEFAULT NULL,
   `arquivo` text DEFAULT NULL,
   `observacao` text DEFAULT NULL,
-  `horario` time DEFAULT NULL
+  `horario` time DEFAULT NULL,
+  `horariofin` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `agendas`
 --
 
-INSERT INTO `agendas` (`id`, `usuario_id`, `local_id`, `data`, `arquivo`, `observacao`, `horario`) VALUES
-(44, NULL, 1, '2025-06-02', NULL, NULL, '07:30:00'),
-(45, NULL, 1, '2025-06-03', NULL, 'fg', '07:30:00');
+INSERT INTO `agendas` (`id`, `usuario_id`, `local_id`, `data`, `arquivo`, `observacao`, `horario`, `horariofin`) VALUES
+(48, NULL, 1, '2025-06-04', NULL, '', '18:40:00', '19:30:00'),
+(49, NULL, 1, '2025-06-05', NULL, '', '21:20:00', '22:10:00'),
+(50, NULL, 1, '2025-06-05', NULL, '', '20:30:00', '21:20:00');
 
 -- --------------------------------------------------------
 
@@ -243,7 +246,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `agendas`
 --
 ALTER TABLE `agendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de tabela `albuns`
