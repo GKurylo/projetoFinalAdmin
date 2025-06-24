@@ -81,15 +81,15 @@ if (empty($id)) {
     $sql->bindParam(":horariofin", $horariofin);
     $sql->bindParam(":observacao", $observacao);
     $sql->bindParam(":id", $id);
+}
 
-if ($res) {
+if ($sql) {
     header("Location: agendas-pesquisar.php");
     exit;
 } else {
     http_response_code(500);
     echo "Erro ao salvar.";
 }
-
 
 exit;
 ?>

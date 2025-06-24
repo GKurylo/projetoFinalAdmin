@@ -43,14 +43,13 @@ if ($id) {
                             <input type="hidden" name="txtid" value="<?php if ($id) {
                                                                             echo $dados["id"];
                                                                         } ?>">
-                            <div class="row mt-3" style="min-height: 500px;">
 
                             <!-- COLUNA ESQUERDA: Local, Data, Observação -->
-                            <div class="col-md-6 d-flex flex-column justify-content-start">
+                            <div class="col-12 d-flex flex-column justify-content-start">
 
                                 <div class="row">
                                     <!-- Local -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <label for="locais">Local:</label>
                                         <select name="txtLocal" id="locais" class="form-control">
                                             <option value="0" selected>SEM LOCAL</option>
@@ -67,15 +66,23 @@ if ($id) {
                                     </div>
 
                                     <!-- Data -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <label for="data">Data:</label>
                                         <input class="form-control" id="data" name="txtData" type="date" value="<?php if ($id) echo date('Y-m-d', strtotime($dados['data'])); ?>"> 
                                     </div>
+
+                                     <!-- COLUNA DIREITA: Horários ocupando toda a altura -->
+                            <div class="col-md-6 d-flex flex-column justify-content-start" id="modalHorarios">
+                                <label for="horariosSelect">Horários:</label>
+                                <select class="form-control h-100" id="horariosSelect" name="txtHorario" multiple >   
+                                </select>  
+                            </div>
+
                                 </div>
 
                                 <!-- Observação -->
                                 <div class="row mt-3">
-                                    <div class="col-md-12">
+                                    <div class="col-12">
                                         <label for="obs">Observação:</label>
                                         <textarea placeholder="*Campo Não Obrigatório" class="form-control placeholder:text-sm" id="obs" name="txtObservacao" rows="8"><?php if ($id) echo $dados["observacao"]; ?></textarea>
                                     </div>
@@ -84,12 +91,7 @@ if ($id) {
 
                             </div>
 
-                            <!-- COLUNA DIREITA: Horários ocupando toda a altura -->
-                            <div class="col-md-6 d-flex flex-column justify-content-start" id="modalHorarios">
-                                <label for="horariosSelect">Horários:</label>
-                                <select class="form-control h-100" id="horariosSelect" name="txtHorario" multiple >   
-                                </select>  
-                            </div>
+                           
 
                         </div>
 
