@@ -77,7 +77,7 @@ if ($id) {
                             </div>
 
                             <div class="offset-2 col-8">
-                                <label for="locais" class="form-label">Locais:</label>
+                                <label for="meuSelect" class="form-label">Locais:</label>
                                 <select id="meuSelect" class="select2 form-control" multiple="multiple" name="txtLocais">
                                     <option value="0">Sem local</option>
                                     <?php

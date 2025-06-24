@@ -107,7 +107,10 @@ if ($id) {
     <?php include("app-footer.php"); ?>
 
     <?php include("app-script.php"); ?>
-
+    <script>
+            $("#horariosSelect").val.trigger(change)("<?php echo $dados["horario"] ?>");
+        </script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         function carregarHorarios() {

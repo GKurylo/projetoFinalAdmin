@@ -81,6 +81,7 @@ if (empty($id)) {
     $sql->bindParam(":horariofin", $horariofin);
     $sql->bindParam(":observacao", $observacao);
     $sql->bindParam(":id", $id);
+}
 
 if ($res) {
     header("Location: agendas-pesquisar.php");
