@@ -34,7 +34,7 @@ if ($id) {
                     <h1>Adicione Sua Notícia!</h1>
 
                     <div class="row mt-3 ">
-                        <form action="noticias-acao.php" method="post" class="row">
+                        <form action="noticias-acao.php" method="post" enctype="multipart/form-data" class="row">
                             <input type="hidden" name="txtId" value="<?php if ($id) {
                                                                             echo $dados['id'];
                                                                         }; ?>">
@@ -56,7 +56,7 @@ if ($id) {
 
                             <div class="offset-2 col-8">
                                 <label for="imagem" class="form-label">Capa:</label>
-                                <input type="file" class="form-control" id="imagem" name="txtImagem" value="<?php echo $dados['imagem'] ?? ''; ?>">
+                                <input type="file" class="form-control" id="imagem" name="txtImagem">
                             </div>
                             
                             <div class="offset-2 col-8">

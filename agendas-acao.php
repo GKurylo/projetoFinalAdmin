@@ -1,8 +1,6 @@
 <?php
 include "login-validar.php";
 include "conexao.php";
-// Exibe o POST para debug
- 
 
 $usuario_id = $_SESSION['id'] ?? null;
 $observacao = $_POST['txtObservacao'] ?? '';
@@ -84,11 +82,12 @@ if (empty($id)) {
     $sql->bindParam(":observacao", $observacao);
     $sql->bindParam(":id", $id);
 
-    if ($sql->execute()) {
-        echo "Agendamento atualizado com sucesso!";
-    } else {
-        echo "Erro ao atualizar agendamento.";
-    }
+if ($res) {
+    header("Location: agendas-pesquisar.php");
+    exit;
+} else {
+    http_response_code(500);
+    echo "Erro ao salvar.";
 }
 
 

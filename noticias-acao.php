@@ -1,56 +1,83 @@
-<?php include('conexao.php');
+<?php
+include('conexao.php');
 
+// Dados do formulário
 $id = $_POST["txtId"];
 $titulo = $_POST["txtTitulo"]; 
 $resumo = $_POST["txtResumo"];
 $texto = $_POST["txtTexto"];
-$imagem = $_POST["txtImagem"];
 $status = $_POST["txtStatus"];
-$album = $_POST["txtAlbum"];
 
-if (!$titulo) {
-    echo "<script>alert('Campo Titulo Obrigatório!'); history.back();</script>";
-    exit;
-}else {
-    if (!$resumo) {
-    echo "<script>alert('Campo Resumo Obrigatório!'); history.back();</script>";
-    exit;
-}else {
-    if (!$texto) {
-    echo "<script>alert('Campo Texto Obrigatório!'); history.back();</script>";
-    exit;
-}else {
-    if (!$imagem) {
-    echo "<script>alert('Campo Imagem Obrigatório!'); history.back();</script>";
-    exit;
-}else {
+// Upload da imagem
+$imagem = "";
+if (isset($_FILES["txtImagem"]) && $_FILES["txtImagem"]["error"] == 0) {
+    $nomeArquivo = $_FILES["txtImagem"]["name"];
+    $caminhoTemporario = $_FILES["txtImagem"]["tmp_name"];
 
-if(!$id){   
-    //inserir
-    $sql=$conn->prepare("
-    insert into noticias set titulo='$titulo',
-                             resumo='$resumo',
-                             texto='$texto',
-                             imagem='$imagem',
-                             status='$status'
-                             ;
-     insert into imagens set album_id='$album',
-                            imagem='$imagem'
-                                       
-    ");
-    $sql->execute();
-}else{
-    //atualizar
-    $sql=$conn->prepare("
-    update noticias set titulo='$titulo',
-                        resumo='$resumo',
-                        texto='$texto',
-                        imagem='$imagem',
-                        status='$status' where id='$id'
-    ");
-    $sql->execute();
+    $pastaDestino = "imagens/";
+    if (!is_dir($pastaDestino)) {
+        mkdir($pastaDestino, 0755, true); // Cria a pasta se não existir
+    }
+
+    $caminhoFinal = $pastaDestino . time() . "_" . $nomeArquivo;
+
+    if (move_uploaded_file($caminhoTemporario, $caminhoFinal)) {
+        $imagem = $caminhoFinal;
+    } else {
+        echo "<script>alert('Erro ao salvar a imagem!'); history.back();</script>";
+        exit;
+    }
 }
-}}}}
-header("location: noticias-cadastro.php");
 
+// Validação
+if (!$titulo || !$resumo || !$texto) {
+    echo "<script>alert('Preencha todos os campos obrigatórios!'); history.back();</script>";
+    exit;
+}
+
+// Inserção ou atualização
+if (!$id) {
+    $sql = $conn->prepare("
+        INSERT INTO noticias (titulo, resumo, texto, imagem, status)
+        VALUES (:titulo, :resumo, :texto, :imagem, :status)
+    ");
+} else {
+    if ($imagem) {
+        $sql = $conn->prepare("
+            UPDATE noticias SET
+                titulo = :titulo,
+                resumo = :resumo,
+                texto = :texto,
+                imagem = :imagem,
+                status = :status
+            WHERE id = :id
+        ");
+        $sql->bindValue(":id", $id);
+    } else {
+        $sql = $conn->prepare("
+            UPDATE noticias SET
+                titulo = :titulo,
+                resumo = :resumo,
+                texto = :texto,
+                status = :status
+            WHERE id = :id
+        ");
+        $sql->bindValue(":id", $id);
+    }
+}
+
+// Bind dos valores
+$sql->bindValue(":titulo", $titulo);
+$sql->bindValue(":resumo", $resumo);
+$sql->bindValue(":texto", $texto);
+if ($imagem) {
+    $sql->bindValue(":imagem", $imagem);
+}
+$sql->bindValue(":status", $status);
+
+$sql->execute();
+
+// Redireciona
+header("Location: noticias-cadastro.php");
+exit;
 ?>

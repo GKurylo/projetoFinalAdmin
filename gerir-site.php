@@ -39,14 +39,13 @@ include("login-validar.php");
 						<!-- Botão 3 -->
 						<div class="col-4 col-xs-12">
 							<a href="albuns-cadastro.php" class="btn btn-success">
-								<i class="fas fa-plus-circle mr-2"></i>
-								Adicionar Albuns
+								<img src="images/127 Sem Título_20250618194711.png" class="img-fluid">
 							</a>
 						</div>
 						
 						<!-- Botão 4 -->
-						<div class="col-4 col-xs-12">
-							<a href="horario-editar.php" class="btn btn-warning mt-2">
+						<div class="offset-4 col-4 col-xs-12">
+							<a href="horario-editar.php" class="btn btn-success mt-2">
 								<i class="fas fa-plus-circle mr-2"></i>
 								Editar horario
 							</a>
