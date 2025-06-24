@@ -154,13 +154,15 @@ include("login-validar.php");
 				}
 
 				echo json_encode($eventos);
-				
+
 				?>
 			});
 			calendar.render();
 
 			document.querySelectorAll('.local-btn').forEach(function (button) {
 				button.addEventListener('click', function () {
+					this.blur();
+
 					let localId = this.getAttribute('data-id');
 					let localNome = this.getAttribute('data-nome');
 					let dataSelecionada = document.getElementById('dataSelecionada').innerText;
@@ -177,7 +179,7 @@ include("login-validar.php");
 				});
 			});
 
-			document.getElementById('btnSalvarAgendamento').addEventListener('click', function () {
+			document.getElementById('btnSalvarAgendamento').addEventListener('click', async function () {
 				let horariosSelecionados = $('#horariosSelect').val();
 				let data = document.getElementById('inputData').value;
 				let localId = document.getElementById('inputLocalId').value;
@@ -188,20 +190,39 @@ include("login-validar.php");
 					return;
 				}
 
-				horariosSelecionados.forEach(function (horario) {
-					fetch('agendas-acao.php', {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-						body: `txtData=${encodeURIComponent(data)}&txtHorario=${encodeURIComponent(horario)}&txtLocal=${encodeURIComponent(localId)}&txtObservacao=${encodeURIComponent(observacao)}`
-					})
-						.then(response => response.text())
-						.then(result => console.log(result))
-						.catch(error => console.error('Erro:', error));
-				});
+				let erros = 0;
 
-				alert("Agendamentos salvos!");
-				location.reload();
+				for (let horario of horariosSelecionados) {
+					try {
+						let response = await fetch('agendas-acao.php', {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+							body: `txtData=${encodeURIComponent(data)}&txtHorario=${encodeURIComponent(horario)}&txtLocal=${encodeURIComponent(localId)}&txtObservacao=${encodeURIComponent(observacao)}`,
+							credentials: 'include'
+						});
+
+						let result = await response.text();
+
+
+						if (!response.ok || result.includes('Erro')) {
+							erros++;
+							console.error('Falha ao salvar:', result);
+						}
+
+					} catch (error) {
+						erros++;
+						console.error('Erro de rede:', error);
+					}
+				}
+
+				if (erros > 0) {
+					alert("Ocorreu algum erro ao salvar os agendamentos. Verifique o console.");
+				} else {
+					alert("Agendamentos salvos com sucesso!");
+					location.reload();
+				}
 			});
+
 		});
 
 		function carregarHorarios() {
@@ -238,18 +259,22 @@ include("login-validar.php");
 			let textoObservacao = document.getElementById('observacaoTexto').value;
 			document.getElementById('observacaoHidden').value = textoObservacao;
 
-			// Fecha o modal de observação
-			var modalObsEl = document.getElementById('modalObservacao');
-			var modalObs = bootstrap.Modal.getInstance(modalObsEl);
-			modalObs.hide();
+			let modalObsEl = document.getElementById('modalObservacao');
+			if (modalObsEl) {
+				let modalObs = bootstrap.Modal.getInstance(modalObsEl);
+				if (modalObs) {
+					modalObs.hide();
+				}
+			}
 
-			// Reabre o modal de horários (se quiser)
-			var modalHorarios = new bootstrap.Modal(document.getElementById('modalHorarios'));
-			modalHorarios.show();
+			let modalHorariosEl = document.getElementById('modalHorarios');
+			if (modalHorariosEl) {
+				new bootstrap.Modal(modalHorariosEl).show();
+			}
 		}
 
 		document.getElementById('btnSalvarObservacao').addEventListener('click', function () {
-			let observacao = document.getElementById('observacaoInput').value;
+			let observacao = document.getElementById('observacaoTexto').value;
 			document.getElementById('observacaoHidden').value = observacao;
 		});
 
