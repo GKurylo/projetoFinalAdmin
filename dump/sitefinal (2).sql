@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23/06/2025 às 21:58
+-- Tempo de geração: 24/06/2025 às 21:56
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -43,9 +43,8 @@ CREATE TABLE `agendas` (
 --
 
 INSERT INTO `agendas` (`id`, `usuario_id`, `local_id`, `data`, `arquivo`, `observacao`, `horario`, `horariofin`) VALUES
-(48, NULL, 1, '2025-06-04', NULL, '', '18:40:00', '19:30:00'),
-(49, NULL, 1, '2025-06-05', NULL, '', '21:20:00', '22:10:00'),
-(50, NULL, 1, '2025-06-05', NULL, '', '20:30:00', '21:20:00');
+(75, 1, 1, '2025-06-12', NULL, '', '08:20:00', '09:10:00'),
+(76, 1, 1, '2025-06-12', NULL, '', '09:10:00', '10:00:00');
 
 -- --------------------------------------------------------
 
@@ -91,16 +90,17 @@ CREATE TABLE `cursos` (
   `descricao` text DEFAULT NULL,
   `tipo` tinyint(1) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
-  `imagem` blob DEFAULT NULL
+  `imagem` blob DEFAULT NULL,
+  `locais_ids` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `cursos`
 --
 
-INSERT INTO `cursos` (`id`, `nome`, `descricao`, `tipo`, `status`, `imagem`) VALUES
-(3, 'DEV', 'DEV descricao', 0, 1, 0x68747470733a2f2f696d672e6672656570696b2e636f6d2f666f746f732d6772617469732f71756172746f2d76617a696f2d64652d66756e646f2d64652d6573747564696f2d616273747261746f2d64652d6772616469656e74652d76657264652d6c69736f2d64652d6c75786f2d636f6d2d65737061636f2d706172612d7365752d746578746f2d652d696d6167656d5f313235382d39393431382e6a70673f73656d743d6169735f68796272696426773d373430),
-(4, 'Ciencias', 'Estudo das Ciencias', 0, 1, 0x68747470733a2f2f63646e2d69636f6e732d706e672e666c617469636f6e2e636f6d2f3235362f363734372f363734373036342e706e67);
+INSERT INTO `cursos` (`id`, `nome`, `descricao`, `tipo`, `status`, `imagem`, `locais_ids`) VALUES
+(3, 'DEV', 'DEV descricao', 0, 1, 0x68747470733a2f2f696d672e6672656570696b2e636f6d2f666f746f732d6772617469732f71756172746f2d76617a696f2d64652d66756e646f2d64652d6573747564696f2d616273747261746f2d64652d6772616469656e74652d76657264652d6c69736f2d64652d6c75786f2d636f6d2d65737061636f2d706172612d7365752d746578746f2d652d696d6167656d5f313235382d39393431382e6a70673f73656d743d6169735f68796272696426773d373430, ''),
+(4, 'Ciencias', 'Estudo das Ciencias', 0, 1, 0x68747470733a2f2f63646e2d69636f6e732d706e672e666c617469636f6e2e636f6d2f3235362f363734372f363734373036342e706e67, '');
 
 -- --------------------------------------------------------
 
@@ -246,7 +246,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `agendas`
 --
 ALTER TABLE `agendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT de tabela `albuns`

@@ -28,6 +28,7 @@ while ($d = $sqlEv->fetch()) {
     <?php include("app-header.php"); ?>
 </head>
 <body>
+
     <?php include("app-lateral.php"); ?>
     <div class="content-body" style="min-height: 899px;">
         <div class="container-fluid">
@@ -193,5 +194,6 @@ while ($d = $sqlEv->fetch()) {
         $('#horariosSelect').select2({ placeholder:"Selecione horários", theme:"bootstrap4", width:"100%", dropdownParent: $('#modalHorarios') });
     }
     </script>
+
 </body>
 </html>
