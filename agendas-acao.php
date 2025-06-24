@@ -1,87 +1,89 @@
 <?php
- session_start();
+session_start();
 include "conexao.php";
 
 $usuario_id = $_SESSION['usuario_id'] ?? null;
-$observacao = $_POST['txtObservacao'] ?? '';
-$local = $_POST['txtLocal'] ?? '';
+$id = $_POST['txtid'] ?? null;
 $data = $_POST['txtData'] ?? '';
-$horario = $_POST['txtHorario'] ?? '';
-$id = $_POST['txtid'] ?? '';
-$nomeVariavel = 'horariofin';
-$dataMod = new DateTime($horario);
-$dataMod->modify('+50 minutes');
-$$nomeVariavel = $dataMod->format('H:i:s');
+$horarioArray = $_POST['txtHorario'] ?? [];
+$local = $_POST['txtLocal'] ?? '';
+$observacao = $_POST['txtObservacao'] ?? '';
 
-
-// Converter data de dd/mm/yyyy para yyyy-mm-dd se necessário
-if (strpos($data, '/') !== false) {
-    $partes = explode('/', $data);
-    $data = $partes[2] . '-' . $partes[1] . '-' . $partes[0];
-}
-
-// Verificar campos obrigatórios
-if (empty($local) || empty($data) || empty($horario)) {
-    echo "Erro: Campos obrigatórios faltando.";
-    exit;
-}
-
-// Verifica se o usuário esta logado
-if (!$usuario_id) {
-    echo "Erro: Usuário não está logado.";
-    exit;
-}
-
-$verifica = $conn->prepare("
-    SELECT COUNT(*) FROM agendas
-    WHERE local_id = :local AND data = :data AND horario = :horario
-");
-$verifica->bindParam(":local", $local);
-$verifica->bindParam(":data", $data);
-$verifica->bindParam(":horario", $horario);
-$verifica->execute();
-$existe = $verifica->fetchColumn();
-
-if ($existe > 0) {
-    echo "Erro: Este horário já está ocupado para o local selecionado.";
-    exit;
-}
-
-if (empty($id)) {
-    // Se não tiver ID → INSERT
-    $sql = $conn->prepare("
-    INSERT INTO agendas (local_id, data, horario, horariofin, observacao) 
-    VALUES (:local, :data, :horario, :horariofin, :observacao)
-");
-    $sql->bindParam(":local", $local);
-    $sql->bindParam(":data", $data);
-    $sql->bindParam(":horario", $horario);
-    $sql->bindParam(":horariofin", $horariofin);
-    $sql->bindParam(":observacao", $observacao);
-
-
-    if ($sql->execute()) {
-        echo "Agendado com sucesso!";
-    } else {
-        echo "Erro ao salvar agendamento.";
-    }
+// Se for array, junta os horários numa string separada por vírgula
+if (is_array($horarioArray)) {
+    $horario = implode(',', $horarioArray);
 } else {
-    // Se tiver ID → UPDATE
-    $sql = $conn->prepare("
-    UPDATE agendas
-    SET local_id = :local, data = :data, horario = :horario, horariofin = :horariofin, observacao = :observacao
-    WHERE id = :id
-");
-    $sql->bindParam(":local", $local);
-    $sql->bindParam(":data", $data);
-    $sql->bindParam(":horario", $horario);
-    $sql->bindParam(":horariofin", $horariofin);
-    $sql->bindParam(":observacao", $observacao);
-    $sql->bindParam(":id", $id);
+    $horario = $horarioArray;
+}
 
-    if ($sql->execute()) {
-        echo "Agendamento atualizado com sucesso!";
-    } else {
-        echo "Erro ao atualizar agendamento.";
+if (!$data || !$horario || !$local) {
+    http_response_code(400);
+    exit("Erro: Dados incompletos ou usuário não logado.");
+}
+
+// Converte data para formato YYYY-MM-DD se estiver com barras
+if (strpos($data, '/') !== false) {
+    [$d, $m, $y] = explode('/', $data);
+    $data = "$y-$m-$d";
+}
+
+// Calcula final do último horário (+50 min do último horário escolhido)
+try {
+    $horariosExplodidos = explode(',', $horario);
+    $ultimoHorario = end($horariosExplodidos);
+    $dt = new DateTime($ultimoHorario);
+    $dt->modify('+50 minutes');
+    $horariofin = $dt->format('H:i:s');
+} catch (Exception $e) {
+    $horariofin = $ultimoHorario ?? '';
+}
+
+// Se for edição
+if (!empty($id)) {
+    $sql = $conn->prepare("
+        UPDATE agendas SET 
+            local_id = :local, 
+            data = :data, 
+            horario = :horario, 
+            horariofin = :horariofin, 
+            observacao = :obs 
+        WHERE id = :id
+    ");
+    $res = $sql->execute([
+        ':local' => $local,
+        ':data' => $data,
+        ':horario' => $horario,
+        ':horariofin' => $horariofin,
+        ':obs' => $observacao,
+        ':id' => $id
+    ]);
+} else {
+    // Verifica agendamento duplicado apenas para novos registros
+    $sqlVal = $conn->prepare("SELECT COUNT(*) FROM agendas WHERE local_id=:loc AND data=:d AND horario=:h");
+    $sqlVal->execute([':loc' => $local, ':d' => $data, ':h' => $horario]);
+    if ($sqlVal->fetchColumn() > 0) {
+        http_response_code(409);
+        exit("Erro: Horário já ocupado.");
     }
+
+    // INSERIR
+    $sql = $conn->prepare("
+        INSERT INTO agendas (local_id, data, horario, horariofin, observacao)
+        VALUES (:loc, :d, :h, :hf, :obs)
+    ");
+    $res = $sql->execute([
+        ':loc' => $local,
+        ':d' => $data,
+        ':h' => $horario,
+        ':hf' => $horariofin,
+        ':obs' => $observacao
+    ]);
+}
+
+if ($res) {
+    header("Location: agendas-pesquisar.php");
+    exit;
+} else {
+    http_response_code(500);
+    echo "Erro ao salvar.";
 }
