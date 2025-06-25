@@ -23,8 +23,9 @@ while ($d = $sqlEv->fetch()) {
 <html lang="pt-BR">
 <head>
     <title>INDEX</title>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
     <?php include("app-header.php"); ?>
 </head>
 <body>
@@ -38,7 +39,7 @@ while ($d = $sqlEv->fetch()) {
 
                 <!-- Modal Locais -->
                 <div class="modal fade" id="modalLocais" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog"><div class="modal-content">
+                    <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Escolha o Local para <span id="dataSelecionada"></span></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -56,7 +57,7 @@ while ($d = $sqlEv->fetch()) {
 
                 <!-- Modal Horários -->
                 <div class="modal fade" id="modalHorarios" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog"><form class="modal-content">
+                    <div class="modal-dialog modal-dialog-centered"><form class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Escolha um horário para <span id="localSelecionado"></span> - <span id="dataSelecionada2"></span></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -65,7 +66,7 @@ while ($d = $sqlEv->fetch()) {
                             <input type="hidden" id="inputData" name="txtData"/>
                             <input type="hidden" id="inputLocalId" name="txtLocal"/>
                             <label>Horários:</label>
-                            <select id="horariosSelect" multiple class="form-control"></select>
+                            <select id="horariosSelect" multiple class="form-control select2"></select>
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="btnSalvarAgendamento" class="btn btn-primary">Salvar Agendamentos</button>
@@ -76,7 +77,7 @@ while ($d = $sqlEv->fetch()) {
 
                 <!-- Modal Observação -->
                 <div class="modal fade" id="modalObservacao" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog"><div class="modal-content">
+                    <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Observação</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -98,7 +99,7 @@ while ($d = $sqlEv->fetch()) {
     <?php include("app-script.php"); ?>
 
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/dist/locale/pt-br.js"></script>
 
     <style>
@@ -191,7 +192,7 @@ while ($d = $sqlEv->fetch()) {
             });
             sel.appendChild(grp);
         }
-        $('#horariosSelect').select2({ placeholder:"Selecione horários", theme:"bootstrap4", width:"100%", dropdownParent: $('#modalHorarios') });
+        $('#horariosSelect').select2({ placeholder:"Selecione horários", theme: 'classic', width:"100%", dropdownParent: $('#modalHorarios') });
     }
     </script>
 

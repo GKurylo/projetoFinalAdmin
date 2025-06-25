@@ -1,12 +1,14 @@
 <?php
 include('conexao.php');
 
+
+
 $id = $_POST["txtId"];
 $Nome = $_POST["txtNome"];
 $Descricao = $_POST["txtDescricao"];
 $Tipo = $_POST["txtTipo"];
 $status = $_POST["txtStatus"];
-$locais = $_POST["txtLocais"];
+$locais = isset($_POST['txtLocais']) ? (array)$_POST['txtLocais'] : [];
 $imagem_antiga = $_POST["imagem_antiga"] ?? "";
 $imagem = null;
 
@@ -63,21 +65,22 @@ if (!$id && !$imagem) {
     exit;
 }
 
-// Inserir
 if (!$id) {
+    $locais_string = implode(',', $locais);
     $sql = $conn->prepare("
         INSERT INTO cursos (Nome, Descricao, Tipo, imagem, status, locais_ids)
         VALUES (:Nome, :Descricao, :Tipo, :imagem, :status, :locais)
     ");
-    $sql->bindParam(':Nome', $Nome);
-    $sql->bindParam(':Descricao', $Descricao);
-    $sql->bindParam(':Tipo', $Tipo);
-    $sql->bindParam(':imagem', $imagem);
-    $sql->bindParam(':status', $status);
-    $sql->bindParam(':locais', $locais);
-    $sql->execute();
+    $sql->execute([
+        ':Nome' => $Nome,
+        ':Descricao' => $Descricao,
+        ':Tipo' => $Tipo,
+        ':imagem' => $imagem,
+        ':status' => $status,
+        ':locais' => $locais_string,
+    ]);
 } else {
-    // Atualizar
+    $locais_string = implode(',', $locais);
     $sql = $conn->prepare("
         UPDATE cursos SET 
             Nome = :Nome,
@@ -88,14 +91,15 @@ if (!$id) {
             locais_ids = :locais
         WHERE id = :id
     ");
-    $sql->bindParam(':Nome', $Nome);
-    $sql->bindParam(':Descricao', $Descricao);
-    $sql->bindParam(':Tipo', $Tipo);
-    $sql->bindParam(':imagem', $imagem);
-    $sql->bindParam(':status', $status);
-    $sql->bindParam(':locais', $locais);
-    $sql->bindParam(':id', $id);
-    $sql->execute();
+    $sql->execute([
+        ':Nome' => $Nome,
+        ':Descricao' => $Descricao,
+        ':Tipo' => $Tipo,
+        ':imagem' => $imagem,
+        ':status' => $status,
+        ':locais' => $locais_string,
+        ':id' => $id,
+    ]);
 }
 
 // Redirecionar

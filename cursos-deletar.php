@@ -6,13 +6,13 @@ include("conexao.php");
 $id = $_GET['id'];
 
 // Busca o nome do arquivo da imagem no banco (exemplo: "uploads/nome-da-imagem.png")
-$sql = $conn->prepare("SELECT imagem FROM noticias WHERE id = :id");
+$sql = $conn->prepare("SELECT imagem FROM cursos WHERE id = :id");
 $sql->bindParam(':id', $id);
 $sql->execute();
-$noticias = $sql->fetch(PDO::FETCH_ASSOC);
+$cursos = $sql->fetch(PDO::FETCH_ASSOC);
 
-if ($noticias && !empty($noticias['imagem'])) {
-    $caminhoImagem = __DIR__ . '/uploads/' . $noticias['imagem'];
+if ($cursos && !empty($cursos['imagem'])) {
+    $caminhoImagem = __DIR__ . '/uploads/' . $cursos['imagem'];
 
     if (file_exists($caminhoImagem)) {
         unlink($caminhoImagem);
