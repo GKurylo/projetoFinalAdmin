@@ -23,7 +23,7 @@ if (isset($_FILES["txtImagem"]) && $_FILES["txtImagem"]["error"] == 0) {
     $permitidas = ['jpg', 'jpeg', 'png', 'gif'];
 
     if (in_array($ext, $permitidas)) {
-        $novo_nome = "uploads/" . uniqid() . "." . $ext;
+        $novo_nome = uniqid() . "." . $ext;
 
         // Garante que a pasta existe
         if (!is_dir("uploads/")) {

@@ -79,7 +79,6 @@ if ($id) {
                             <div class="offset-2 col-8">
                                 <label for="meuSelect" class="form-label">Locais:</label>
                                 <select id="meuSelect" class="select2 form-control" multiple="multiple" name="txtLocais">
-                                    <option value="0">Sem local</option>
                                     <?php
                                         $sqllocal = $conn->prepare("SELECT * FROM locais where status=1");
                                         $sqllocal->execute();
@@ -106,6 +105,7 @@ if ($id) {
                                 <th>NOME:</th>
                                 <th>DESCRICAO:</th>
                                 <th>TIPO:</th>
+                                <th>LOCAIS:</th>
                                 <th>STATUS:</th>
                                 <th>OPÇÕES:</th>
                             </tr>
@@ -121,7 +121,7 @@ if ($id) {
                                         <?php echo $dados['id'] ?>
                                     </td>
                                     <td style="width: 150px;">
-                                        <?php echo '<img src="' . ($dados['imagem'] ?? '') . '" class="imgBorda" height="120px">'; ?>
+                                        <?php echo "<img src='uploads/" . ($dados['imagem'] ?? '') . "' class='imgBorda' height='120px'>"; ?>
                                     </td>
                                     <td>
                                         <?php echo $dados['nome'] ?>
@@ -138,6 +138,14 @@ if ($id) {
                                         };
                                         ?>
 
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $sqllocal = $conn->prepare("SELECT nome FROM locais WHERE id = ? AND status = 1");
+            $sqllocal->execute([$dados['local_id']]);  // Supondo que CURSOS tenha 'local_id'
+            $dadoslocal = $sqllocal->fetch();
+            echo $dadoslocal['nome'] ?? 'Local não encontrado';
+            ?>
                                     </td>
                                     <td>
                                         <?php

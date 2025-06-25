@@ -16,12 +16,10 @@ if ($id) {
 <html lang="pt-BR">
 
 <head>
-    <title>Cadastro de Agendamentos</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-
+    <title>Cadastro de Agendamentos</title> 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
-
     <?php include("app-header.php"); ?>
 </head>
 
@@ -113,7 +111,7 @@ if ($id) {
             $("#horariosSelect").val("<?php echo $dados['horario']; ?>").trigger("change");
         </script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         function carregarHorarios() {
 			let horarios = {
