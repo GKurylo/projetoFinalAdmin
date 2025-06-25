@@ -1,4 +1,4 @@
-<?php 
+<?php
 include("login-validar.php");
 include("conexao.php");
 
@@ -22,7 +22,8 @@ if ($id) {
     <title>INDEX</title>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css"
+        rel="stylesheet" />
     <?php include("app-header.php"); ?>
 
 </head>
@@ -42,53 +43,64 @@ if ($id) {
                     <div class="row mt-3 ">
                         <form action="cursos-acao.php" method="post" class="row" enctype="multipart/form-data">
                             <input type="hidden" name="txtId" value="<?php if ($id) {
-                                                                            echo $dados['id'];
-                                                                        }; ?>">
+                                echo $dados['id'];
+                            }
+                            ; ?>">
 
                             <div class="offset-2 col-8">
                                 <label for="nome" class="form-label">Nome:</label>
-                                <input type="text" class="form-control" id="nome" name="txtNome" value="<?php echo $dados['nome'] ?? ''; ?>">
+                                <input type="text" class="form-control" id="nome" name="txtNome"
+                                    value="<?php echo $dados['nome'] ?? ''; ?>">
                             </div>
 
                             <div class="offset-2 col-8">
                                 <label for="descricao" class="form-label">Descricao:</label>
-                                <input type="text" class="form-control" id="descricao" name="txtDescricao" value="<?php echo $dados['descricao'] ?? ''; ?>">
+                                <input type="text" class="form-control" id="descricao" name="txtDescricao"
+                                    value="<?php echo $dados['descricao'] ?? ''; ?>">
                             </div>
 
                             <div class="offset-2 col-8">
                                 <label for="tipo" class="form-label">Tipo:</label>
                                 <select type="text" class="form-control" id="tipo" name="txtTipo">
-                                    <option value="1" <?php if (($dados['tipo'] ?? '') == 1) echo 'selected'; ?>>Subsequente</option>
-                                    <option value="0" <?php if (($dados['tipo'] ?? '') == 0) echo 'selected'; ?>>Integrado</option>
+                                    <option value="1" <?php if (($dados['tipo'] ?? '') == 1)
+                                        echo 'selected'; ?>>
+                                        Subsequente</option>
+                                    <option value="0" <?php if (($dados['tipo'] ?? '') == 0)
+                                        echo 'selected'; ?>>Integrado
+                                    </option>
                                 </select>
                             </div>
 
                             <div class="offset-2 col-8">
                                 <label for="status" class="form-label">Status:</label>
                                 <select type="text" class="form-control" id="status" name="txtStatus">
-                                    <option value="1" <?php if (($dados['status'] ?? '') == 1) echo 'selected'; ?>>Ativo</option>
-                                    <option value="0" <?php if (($dados['status'] ?? '') == 0) echo 'selected'; ?>>Bloqueado</option>
+                                    <option value="1" <?php if (($dados['status'] ?? '') == 1)
+                                        echo 'selected'; ?>>Ativo
+                                    </option>
+                                    <option value="0" <?php if (($dados['status'] ?? '') == 0)
+                                        echo 'selected'; ?>>
+                                        Bloqueado</option>
                                 </select>
                             </div>
 
                             <div class="offset-2 col-8">
                                 <label for="imagem" class="form-label">Capa:</label>
-                                <input type="file" class="form-control" id="imagem" name="txtImagem" value="<?php echo $dados['imagem'] ?? ''; ?>">
+                                <input type="file" class="form-control" id="imagem" name="txtImagem"
+                                    value="<?php echo $dados['imagem'] ?? ''; ?>">
                             </div>
 
                             <div class="offset-2 col-8">
                                 <label for="meuSelect" class="form-label">Locais:</label>
-                                <select id="meuSelect" class="select2 form-control" multiple="multiple" name="txtLocais">
-                                    <option value="0">Sem local</option>
+                                <select id="meuSelect" class="select2 form-control" multiple="multiple"
+                                    name="txtLocais[]">
                                     <?php
-                                        $sqllocal = $conn->prepare("SELECT * FROM locais where status=1");
-                                        $sqllocal->execute();
-                                        while ($dadoslocal = $sqllocal->fetch()) { ?>
-                                            <option value='<?php echo $dadoslocal["id"]; ?>'
-                                                <?php if ($id && $dados["local_id"] == $dadoslocal["id"]) echo "selected"; ?>>
-                                                <?php echo $dadoslocal["nome"]; ?>
-                                            </option>
-                                        <?php } ?>
+                                    $sqllocal = $conn->prepare("SELECT * FROM locais where status=1");
+                                    $sqllocal->execute();
+                                    while ($dadoslocal = $sqllocal->fetch()) { ?>
+                                        <option value="<?php echo $dadoslocal['id']; ?>" <?php echo ($id && $dados['local_id'] == $dadoslocal['id']) ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($dadoslocal['nome']); ?>
+                                        </option>
+                                    <?php } ?>
                                 </select>
                             </div>
 
@@ -106,6 +118,7 @@ if ($id) {
                                 <th>NOME:</th>
                                 <th>DESCRICAO:</th>
                                 <th>TIPO:</th>
+                                <th>LOCAIS:</th>
                                 <th>STATUS:</th>
                                 <th>OPÇÕES:</th>
                             </tr>
@@ -114,14 +127,14 @@ if ($id) {
                             $sql = $conn->prepare(" SELECT * from CURSOS;");
                             $sql->execute();
                             while ($dados = $sql->fetch()) {
-                            ?>
+                                ?>
 
                                 <tr>
                                     <td>
                                         <?php echo $dados['id'] ?>
                                     </td>
                                     <td style="width: 150px;">
-                                        <?php echo '<img src="' . ($dados['imagem'] ?? '') . '" class="imgBorda" height="120px">'; ?>
+                                        <?php echo "<img src='uploads/" . ($dados['imagem'] ?? '') . "' class='imgBorda' height='120px'>"; ?>
                                     </td>
                                     <td>
                                         <?php echo $dados['nome'] ?>
@@ -135,9 +148,29 @@ if ($id) {
                                             echo "Subsequente";
                                         } else {
                                             echo "Integrado";
-                                        };
+                                        }
+                                        ;
                                         ?>
 
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $locaisNomes = [];
+
+                                        if (!empty($dados['locais_ids'])) {
+                                            $ids = explode(',', $dados['locais_ids']);
+                                            $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+                                            $stmtLocais = $conn->prepare("SELECT nome FROM locais WHERE id IN ($placeholders)");
+                                            $stmtLocais->execute($ids);
+
+                                            while ($rowLocal = $stmtLocais->fetch()) {
+                                                $locaisNomes[] = $rowLocal['nome'];
+                                            }
+                                        }
+
+                                        echo implode(', ', $locaisNomes);
+                                        ?>
                                     </td>
                                     <td>
                                         <?php
@@ -145,18 +178,22 @@ if ($id) {
                                             echo "Ativo";
                                         } else {
                                             echo "Desativo";
-                                        };
+                                        }
+                                        ;
                                         ?>
 
                                     </td>
                                     <td class="text-center">
-                                        <a href="cursos-editar.php?id=<?php echo $dados['id']; ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a href="cursos-editar.php?id=<?php echo $dados['id']; ?>"
+                                            class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                                        <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFotos" data-album-id="<?php echo $dados['id']; ?>">
+                                        <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#modalFotos" data-album-id="<?php echo $dados['id']; ?>">
                                             <i class="fa-solid fa-image"></i>
                                         </a>
 
-                                        <a href="cursos-deletar.php?id=<?php echo $dados['id']; ?>" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                        <a href="cursos-deletar.php?id=<?php echo $dados['id']; ?>"
+                                            class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
 
@@ -195,14 +232,14 @@ if ($id) {
 
     <script>
         var modalFotos = document.getElementById('modalFotos');
-        modalFotos.addEventListener('show.bs.modal', function(event) {
+        modalFotos.addEventListener('show.bs.modal', function (event) {
             let button = event.relatedTarget;
             let albumId = button.getAttribute('data-album-id');
             document.getElementById('iframeFotos').src = 'albuns-listar.php?id=' + albumId;
         });
     </script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#meuSelect').select2({
                 placeholder: "Selecione as opções",
                 allowClear: true,

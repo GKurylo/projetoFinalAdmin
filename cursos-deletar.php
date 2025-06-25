@@ -9,16 +9,15 @@ $id = $_GET['id'];
 $sql = $conn->prepare("SELECT imagem FROM cursos WHERE id = :id");
 $sql->bindParam(':id', $id);
 $sql->execute();
-$curso = $sql->fetch(PDO::FETCH_ASSOC);
+$cursos = $sql->fetch(PDO::FETCH_ASSOC);
 
-// Se tiver imagem cadastrada e o arquivo existir na pasta uploads, apaga o arquivo
-if ($curso && !empty($curso['imagem'])) {
-    $caminhoImagem = $curso['imagem'];
+if ($cursos && !empty($cursos['imagem'])) {
+    $caminhoImagem = __DIR__ . '/uploads/' . $cursos['imagem'];
 
-    // Confirma que o caminho começa com "uploads/" só por segurança
-    if (file_exists($caminhoImagem) && strpos($caminhoImagem, 'uploads/') === 0) {
+    if (file_exists($caminhoImagem)) {
         unlink($caminhoImagem);
-        //echo $caminhoImagem;
+    } else {
+        echo "Arquivo não encontrado: $caminhoImagem";
     }
 }
 

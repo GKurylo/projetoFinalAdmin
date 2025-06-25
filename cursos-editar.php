@@ -18,7 +18,11 @@ if ($id) {
 
 <head>
     <title>INDEX</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
     <?php include("app-header.php"); ?>
+
 </head>
 
 <body>
@@ -74,9 +78,9 @@ if ($id) {
                                 <label for="imagem" class="form-label">Capa:</label>
 
                                 <?php if ($id && !empty($dados['imagem'])): ?>
-                                    <input type="hidden" name="imagemAtual" value="<?php echo $dados['imagem']; ?>">
+                                    <input type="hidden" name="imagem_antiga" value="<?php echo $dados['imagem']; ?>">
                                     <div class="mb-2">
-                                        <img src="<?php echo $dados['imagem']; ?>" alt="Imagem atual" style="max-width: 200px;">
+                                        <?php echo "<img src='uploads/" . ($dados['imagem'] ?? '') . "' class='imgBorda' height='120px'>"; ?>
                                     </div>
                                 <?php endif; ?>
 
@@ -86,7 +90,6 @@ if ($id) {
                             <div class="offset-2 col-8">
                                 <label for="meuSelect" class="form-label">Locais:</label>
                                 <select id="meuSelect" class="select2 form-control" multiple="multiple" name="txtLocais[]">
-                                    <option value="0">Sem local</option>
                                     <?php
                                     $sqllocal = $conn->prepare("SELECT * FROM locais WHERE status=1");
                                     $sqllocal->execute();
@@ -119,12 +122,22 @@ if ($id) {
 
 
     <?php include("app-script.php"); ?>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $("#tipo").val("<?php echo $dados["tipo"] ?>");
     </script>
     <script>
         $("#status").val("<?php echo $dados["status"] ?>");
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#meuSelect').select2({
+                placeholder: "Selecione as opções",
+                allowClear: true,
+                theme: 'classic',
+            });
+        });
     </script>
 
 </body>

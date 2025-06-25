@@ -121,7 +121,7 @@ if ($id) {
                                         <?php echo $dados['id'] ?>
                                     </td>
                                     <td style="width: 150px;">
-                                        <?php echo '<img src="' . ($dados['imagem'] ?? '') . '" class="imgBorda" height="120px">'; ?>
+                                        <?php echo "<img src='uploads/" . ($dados['imagem'] ?? '') . "' class='imgBorda' height='120px'>"; ?>
                                     </td>
                                     <td>
                                         <?php echo $dados['titulo'] ?>

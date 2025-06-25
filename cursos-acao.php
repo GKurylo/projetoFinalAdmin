@@ -1,31 +1,41 @@
 <?php
 include('conexao.php');
 
+
+
 $id = $_POST["txtId"];
 $Nome = $_POST["txtNome"];
 $Descricao = $_POST["txtDescricao"];
 $Tipo = $_POST["txtTipo"];
 $status = $_POST["txtStatus"];
-$locais = $_POST["txtLocais"];
+$locais = isset($_POST['txtLocais']) ? (array)$_POST['txtLocais'] : [];
+$imagem_antiga = $_POST["imagem_antiga"] ?? "";
 $imagem = null;
 
-// Upload da imagem (se enviada)
-if (isset($_FILES['txtImagem']) && $_FILES['txtImagem']['error'] == 0) {
-    $pastaDestino = "uploads/";
-    $nomeUnico = uniqid() . "-" . basename($_FILES['txtImagem']['name']);
-    $caminhoCompleto = $pastaDestino . $nomeUnico;
+// Upload da imagem
+$imagem = $imagem_antiga;
 
-    // Tipos permitidos
-    $tiposPermitidos = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
-    if (in_array($_FILES['txtImagem']['type'], $tiposPermitidos)) {
-        if (move_uploaded_file($_FILES['txtImagem']['tmp_name'], $caminhoCompleto)) {
-            $imagem = $caminhoCompleto;
+if (isset($_FILES["txtImagem"]) && $_FILES["txtImagem"]["error"] == 0) {
+    $ext = strtolower(pathinfo($_FILES["txtImagem"]["name"], PATHINFO_EXTENSION));
+    $permitidas = ['jpg', 'jpeg', 'png', 'gif'];
+
+    if (in_array($ext, $permitidas)) {
+        $novo_nome = uniqid() . "." . $ext;
+
+        // Garante que a pasta existe
+        if (!is_dir("uploads/")) {
+            mkdir("uploads/", 0755, true);
+        }
+
+        // Move o arquivo e define o nome
+        if (move_uploaded_file($_FILES["txtImagem"]["tmp_name"], "uploads/" . $novo_nome)) {
+            $imagem = $novo_nome;
         } else {
-            echo "<script>alert('Falha ao salvar a imagem.'); history.back();</script>";
+            echo "<script>alert('Erro ao salvar a imagem!'); history.back();</script>";
             exit;
         }
     } else {
-        echo "<script>alert('Tipo de arquivo não permitido. Envie apenas imagens PNG, JPG ou GIF.'); history.back();</script>";
+        echo "<script>alert('Formato de imagem inválido!'); history.back();</script>";
         exit;
     }
 }
@@ -55,21 +65,22 @@ if (!$id && !$imagem) {
     exit;
 }
 
-// Inserir
 if (!$id) {
+    $locais_string = implode(',', $locais);
     $sql = $conn->prepare("
         INSERT INTO cursos (Nome, Descricao, Tipo, imagem, status, locais_ids)
         VALUES (:Nome, :Descricao, :Tipo, :imagem, :status, :locais)
     ");
-    $sql->bindParam(':Nome', $Nome);
-    $sql->bindParam(':Descricao', $Descricao);
-    $sql->bindParam(':Tipo', $Tipo);
-    $sql->bindParam(':imagem', $imagem);
-    $sql->bindParam(':status', $status);
-    $sql->bindParam(':locais', $locais);
-    $sql->execute();
+    $sql->execute([
+        ':Nome' => $Nome,
+        ':Descricao' => $Descricao,
+        ':Tipo' => $Tipo,
+        ':imagem' => $imagem,
+        ':status' => $status,
+        ':locais' => $locais_string,
+    ]);
 } else {
-    // Atualizar
+    $locais_string = implode(',', $locais);
     $sql = $conn->prepare("
         UPDATE cursos SET 
             Nome = :Nome,
@@ -80,14 +91,15 @@ if (!$id) {
             locais_ids = :locais
         WHERE id = :id
     ");
-    $sql->bindParam(':Nome', $Nome);
-    $sql->bindParam(':Descricao', $Descricao);
-    $sql->bindParam(':Tipo', $Tipo);
-    $sql->bindParam(':imagem', $imagem);
-    $sql->bindParam(':status', $status);
-    $sql->bindParam(':locais', $locais);
-    $sql->bindParam(':id', $id);
-    $sql->execute();
+    $sql->execute([
+        ':Nome' => $Nome,
+        ':Descricao' => $Descricao,
+        ':Tipo' => $Tipo,
+        ':imagem' => $imagem,
+        ':status' => $status,
+        ':locais' => $locais_string,
+        ':id' => $id,
+    ]);
 }
 
 // Redirecionar
