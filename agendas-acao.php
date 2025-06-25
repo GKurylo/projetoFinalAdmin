@@ -62,6 +62,7 @@ if (empty($id)) {
     $sql->bindParam(":horario", $horario);
     $sql->bindParam(":horariofin", $horariofin);
     $sql->bindParam(":observacao", $observacao);
+    
 
     if ($sql->execute()) {
         echo "Agendado com sucesso!";

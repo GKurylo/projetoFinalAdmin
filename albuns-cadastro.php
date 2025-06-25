@@ -122,7 +122,7 @@ if ($id) {
 
 
     <!-- Modal album -->
-    <div class="modal fade" id="modalFotos" tabindex="-1" aria-labelledby="modalFotosLabel" aria-hidden="true">
+    <div class="modal fade" id="modalFotos" tabindex="-1" aria-labelledby="modalFotosLabel">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

@@ -18,7 +18,7 @@ if ($id) {
 
 <head>
     <title>Index</title>
-    <?php include("app-header.php"); ?>   
+    <?php include("app-header.php"); ?>
 </head>
 
 <body>
@@ -39,6 +39,33 @@ if ($id) {
                                                                             echo $dados['id'];
                                                                         }; ?>">
 
+
+                            <div class="offset-2 col-8">
+                                <label for="album" class="form-label">Álbum:</label>
+                                <div class="input-group">
+                                    <select name="txtAlbum" id="album" class="form-control">
+                                        <?php
+                                        $sqlalbum = $conn->prepare("SELECT * FROM albuns WHERE status=1");
+                                        $sqlalbum->execute();
+                                        while ($dadosalbum = $sqlalbum->fetch()) { ?>
+                                            <option value='<?php echo $dadosalbum["id"]; ?>'
+                                                <?php if ($id && $dados["album_id"] == $dadosalbum["id"]) echo "selected"; ?>>
+                                                <?php echo $dadosalbum["nome"]; ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+
+                                    <div class="input-group-append">
+                                        <a href="albuns-cadastro.php" class="btn bg-primary text-white" title="Adicionar novo álbum">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
                             <div class="offset-2 col-8">
                                 <label for="titulo" class="form-label">Titulo:</label>
                                 <input type="text" class="form-control" id="titulo" name="txtTitulo" value="<?php echo $dados['titulo'] ?? ''; ?>">
@@ -58,7 +85,7 @@ if ($id) {
                                 <label for="imagem" class="form-label">Capa:</label>
                                 <input type="file" class="form-control" id="imagem" name="txtImagem">
                             </div>
-                            
+
                             <div class="offset-2 col-8">
                                 <label for="status" class="form-label">Status:</label>
                                 <select type="text" class="form-control" id="status" name="txtStatus">
@@ -104,18 +131,18 @@ if ($id) {
                                     </td>
                                     <td>
                                         <?php
-                                           if ($dados['status'] == 1) {
-                                               echo "Ativo";
-                                           } else {
-                                               echo "Bloqueado";
-                                           };
+                                        if ($dados['status'] == 1) {
+                                            echo "Ativo";
+                                        } else {
+                                            echo "Bloqueado";
+                                        };
                                         ?>
 
                                     </td>
                                     <td class="text-center">
                                         <a href="noticias-editar.php?id=<?php echo $dados['id']; ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                                        <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFotos" data-album-id="<?php echo $dados['id']; ?>">
+                                        <a href="modalFotos?id=<?php echo $dados['id']; ?>" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFotos" data-album-id="<?php echo $dados['id']; ?>">
                                             <i class="fa-solid fa-image"></i>
                                         </a>
 
@@ -134,7 +161,7 @@ if ($id) {
     </div>
 
 
-       <!-- Modal album -->
+    <!-- Modal album -->
     <div class="modal fade" id="modalFotos" tabindex="-1" aria-labelledby="modalFotosLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
@@ -149,7 +176,7 @@ if ($id) {
         </div>
     </div>
 
-    
+
     <?php include("app-footer.php"); ?>
 
     <?php include("app-script.php"); ?>
@@ -159,6 +186,7 @@ if ($id) {
 
     <script>
         var modalFotos = document.getElementById('modalFotos');
+
         modalFotos.addEventListener('show.bs.modal', function(event) {
             let button = event.relatedTarget;
             let albumId = button.getAttribute('data-album-id');

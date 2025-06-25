@@ -17,7 +17,7 @@ if ($id) {
 <html lang="pt-BR">
 
 <head>
-    <title>INDEX</title>
+    <title>INDEX</title>    
     <?php include("app-header.php"); ?>
 </head>
 
@@ -61,7 +61,12 @@ if ($id) {
                             </div>
 
                             <div class="offset-2 col-8">
-                                <label for="imagem" class="form-label">Capa:</label>
+                                <?php if ($id && !empty($dados['imagem'])): ?>
+                                    <p>Imagem atual:</p>
+                                    <img src="<?php echo $dados['imagem']; ?>" alt="Imagem atual" style="max-width: 200px;">
+                                    <input type="hidden" name="imagem_antiga" value="<?php echo $dados['imagem']; ?>">
+                                <?php endif; ?><br>
+                                <label for="imagem">Alterar imagem:</label>
                                 <input type="file" class="form-control" id="imagem" name="txtImagem">
                             </div>
 
