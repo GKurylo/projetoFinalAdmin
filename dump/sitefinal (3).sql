@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25/06/2025 às 03:18
+-- Tempo de geração: 25/06/2025 às 21:49
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,8 +43,8 @@ CREATE TABLE `agendas` (
 --
 
 INSERT INTO `agendas` (`id`, `usuario_id`, `local_id`, `data`, `arquivo`, `observacao`, `horario`, `horariofin`) VALUES
-(75, 1, 1, '2025-06-12', NULL, '', '08:20:00', '09:10:00'),
-(76, 1, 1, '2025-06-12', NULL, '', '09:10:00', '10:00:00');
+(81, 1, 1, '2025-06-03', NULL, 'fdfswdfwf', '08:20:00', '09:10:00'),
+(82, 1, 1, '2025-06-02', NULL, '', '11:00:00', '11:50:00');
 
 -- --------------------------------------------------------
 
@@ -91,7 +91,7 @@ CREATE TABLE `cursos` (
   `tipo` tinyint(1) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `imagem` text DEFAULT NULL,
-  `locais_ids` text NOT NULL
+  `locais_ids` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -99,8 +99,8 @@ CREATE TABLE `cursos` (
 --
 
 INSERT INTO `cursos` (`id`, `nome`, `descricao`, `tipo`, `status`, `imagem`, `locais_ids`) VALUES
-(3, 'DEV', 'DEV descricao', 0, 1, 'https://img.freepik.com/fotos-gratis/quarto-vazio-de-fundo-de-estudio-abstrato-de-gradiente-verde-liso-de-luxo-com-espaco-para-seu-texto-e-imagem_1258-99418.jpg?semt=ais_hybrid&w=740', 'Array'),
-(4, 'Ciencias', 'Estudo das Ciencias', 0, 1, 'https://cdn-icons-png.flaticon.com/256/6747/6747064.png', '');
+(21, 'hgret', 'tygert', 0, 1, '685c448ae25de.jpg', '1,3,5,10,13'),
+(24, 'DEV', 'wdwd', 1, 1, '685c46d13379c.jpg', '1');
 
 -- --------------------------------------------------------
 
@@ -164,11 +164,7 @@ CREATE TABLE `noticias` (
 --
 
 INSERT INTO `noticias` (`id`, `titulo`, `resumo`, `texto`, `status`, `imagem`) VALUES
-(22, 'a', 'a', 'a', 1, 'imagens/1750812046_olho.jpg'),
-(23, 'asas', 'assasa', 'sasasas', 1, '685b4a2e75528.jpg'),
-(24, 'sasasas', 'asasas', 'asasasas', 1, '685b4a4bad79c.gif'),
-(25, 'e', 'ee', 'eee', 1, '685b4bbb21a7d.png'),
-(26, 'e', 'ee', 'eee', 1, '685b4bcfc46a8.png');
+(32, 'erdfre', 'efdedfr', 'efdedf', 1, '685bfcc24ef5a.jpg');
 
 -- --------------------------------------------------------
 
@@ -191,7 +187,8 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `nome`, `usuario`, `senha`, `cargo`, `status`) VALUES
 (1, 'teste', 'teste@gmail.com', '1324', 1, 1),
-(4, 'Joao', 'joao@gmail.com', '1234', 0, 1);
+(4, 'Joao', 'joao@gmail.com', '1234', 0, 1),
+(17, 'professor', 'professor@gmail.com', '4231', 0, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -250,7 +247,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `agendas`
 --
 ALTER TABLE `agendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT de tabela `albuns`
@@ -268,7 +265,7 @@ ALTER TABLE `albuns_imagens`
 -- AUTO_INCREMENT de tabela `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de tabela `locais`
@@ -280,13 +277,13 @@ ALTER TABLE `locais`
 -- AUTO_INCREMENT de tabela `noticias`
 --
 ALTER TABLE `noticias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Restrições para tabelas despejadas
