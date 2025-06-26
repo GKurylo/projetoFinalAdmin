@@ -1,20 +1,18 @@
 <?php
 include('conexao.php');
 
-
-
 $id = $_POST["txtId"];
-$Nome = $_POST["txtNome"];
-$Descricao = $_POST["txtDescricao"];
-$Tipo = $_POST["txtTipo"];
+$nome = $_POST["txtNome"];
+$descricao = $_POST["txtDescricao"];
+$tipo = $_POST["txtTipo"];
 $status = $_POST["txtStatus"];
 $locais = isset($_POST['txtLocais']) ? (array)$_POST['txtLocais'] : [];
 $imagem_antiga = $_POST["imagem_antiga"] ?? "";
-$imagem = null;
+$imagem = $imagem_antiga; // por padrão, mantém a imagem antiga
 
-// Upload da imagem
-$imagem = $imagem_antiga;
 
+
+// Verifica se foi enviado uma nova imagem
 if (isset($_FILES["txtImagem"]) && $_FILES["txtImagem"]["error"] == 0) {
     $ext = strtolower(pathinfo($_FILES["txtImagem"]["name"], PATHINFO_EXTENSION));
     $permitidas = ['jpg', 'jpeg', 'png', 'gif'];
@@ -22,87 +20,56 @@ if (isset($_FILES["txtImagem"]) && $_FILES["txtImagem"]["error"] == 0) {
     if (in_array($ext, $permitidas)) {
         $novo_nome = uniqid() . "." . $ext;
 
-        // Garante que a pasta existe
+        // Cria pasta uploads se não existir
         if (!is_dir("uploads/")) {
             mkdir("uploads/", 0755, true);
         }
 
-        // Move o arquivo e define o nome
+        // Move o arquivo para uploads
         if (move_uploaded_file($_FILES["txtImagem"]["tmp_name"], "uploads/" . $novo_nome)) {
             $imagem = $novo_nome;
         } else {
-            echo "<script>alert('Erro ao salvar a imagem!'); history.back();</script>";
+            echo "<script>alert('Erro ao enviar a imagem!'); window.location = 'cursos-cadastro.php';</script>";
             exit;
         }
     } else {
-        echo "<script>alert('Formato de imagem inválido!'); history.back();</script>";
+        echo "<script>alert('Formato de imagem não permitido!'); window.location = 'cursos-cadastro.php';</script>";
         exit;
     }
 }
 
-// Validação
-if (!$Nome) {
+if (!$nome) {
     echo "<script>alert('Campo Nome Obrigatório!'); history.back();</script>";
-    exit;
+    exit; // Impede a execução do restante
 }
-if (!$Descricao) {
+if (!$descricao) {
     echo "<script>alert('Campo Descrição Obrigatório!'); history.back();</script>";
-    exit;
+    exit; // Impede a execução do restante
+}
+if (!$imagem) {
+    echo "<script>alert('Campo Capa Obrigatório!'); history.back();</script>";
+    exit; // Impede a execução do restante
 }
 if (!$locais) {
     echo "<script>alert('Campo Locais Obrigatório!'); history.back();</script>";
-    exit;
+    exit; // Impede a execução do restante
 }
 
-// Se estiver editando e não enviou nova imagem, manter a atual
-if ($id && !$imagem && isset($_POST['imagemAtual'])) {
-    $imagem = $_POST['imagemAtual'];
-}
+// Converte array de locais para string separada por vírgula
+$locais_string = implode(',', $locais);
 
-// Se for cadastro novo e não tem imagem, erro
-if (!$id && !$imagem) {
-    echo "<script>alert('Campo Capa Obrigatório!'); history.back();</script>";
-    exit;
-}
-
-if (!$id) {
-    $locais_string = implode(',', $locais);
-    $sql = $conn->prepare("
-        INSERT INTO cursos (Nome, Descricao, Tipo, imagem, status, locais_ids)
-        VALUES (:Nome, :Descricao, :Tipo, :imagem, :status, :locais)
-    ");
-    $sql->execute([
-        ':Nome' => $Nome,
-        ':Descricao' => $Descricao,
-        ':Tipo' => $Tipo,
-        ':imagem' => $imagem,
-        ':status' => $status,
-        ':locais' => $locais_string,
-    ]);
+if ($id) {
+    // Atualiza curso existente
+    $sql = $conn->prepare("UPDATE cursos SET nome = ?, descricao = ?, tipo = ?, status = ?, locais_ids = ?, imagem = ? WHERE id = ?");
+    $resultado = $sql->execute([$nome, $descricao, $tipo, $status, $locais_string, $imagem, $id]);
 } else {
-    $locais_string = implode(',', $locais);
-    $sql = $conn->prepare("
-        UPDATE cursos SET 
-            Nome = :Nome,
-            Descricao = :Descricao,
-            Tipo = :Tipo,
-            imagem = :imagem,
-            status = :status,
-            locais_ids = :locais
-        WHERE id = :id
-    ");
-    $sql->execute([
-        ':Nome' => $Nome,
-        ':Descricao' => $Descricao,
-        ':Tipo' => $Tipo,
-        ':imagem' => $imagem,
-        ':status' => $status,
-        ':locais' => $locais_string,
-        ':id' => $id,
-    ]);
+    // Insere novo curso
+    $sql = $conn->prepare("INSERT INTO cursos (nome, descricao, tipo, status, locais_ids, imagem) VALUES (?, ?, ?, ?, ?, ?)");
+    $resultado = $sql->execute([$nome, $descricao, $tipo, $status, $locais_string, $imagem]);
 }
 
-// Redirecionar
-header("Location: cursos-cadastro.php");
-exit;
-?>
+if ($resultado) {
+    echo "<script>alert('Cadastro realizado com sucesso!'); window.location = 'cursos-cadastro.php';</script>";
+} else {
+    echo "<script>alert('Erro ao cadastrar!'); window.location = 'cursos-cadastro.php';</script>";
+}

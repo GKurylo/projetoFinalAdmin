@@ -1,6 +1,8 @@
 <?php
 include("conexao.php");
 include("login-validar.php");
+$horariosMarcados = isset($dados['horario']) ? explode(',', $dados['horario']) : [];
+
 $id = isset($_GET["id"]) ? $_GET["id"] : "";
 if ($id) {
 
@@ -93,9 +95,6 @@ if ($id) {
                                 </div>
 
                             </div>
-
-
-
                     </div>
 
                     <div class="mt-3 col-12 text-center">
@@ -112,11 +111,23 @@ if ($id) {
     <?php include("app-footer.php"); ?>
 
     <?php include("app-script.php"); ?>
-    <script>
-        $("#horariosSelect").val("<?php echo $dados['horario']; ?>").trigger("change");
-    </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+   
+
+<script>
+// Suponha que seu JS preencha as opções aqui:
+const horariosDisponiveis = ["08:00", "10:00", "14:00", "16:00"]; // Exemplo
+const select = document.getElementById("horariosSelect");
+
+select.innerHTML = horariosDisponiveis.map(h => `<option value="${h}">${h}</option>`).join("");
+
+// Agora, marque os valores salvos no banco
+const horariosMarcados = <?php echo json_encode($horariosMarcados); ?>;
+
+$("#horariosSelect").val(horariosMarcados).trigger("change");
+</script>
     <script>
         function carregarHorarios() {
             let horarios = {
@@ -152,6 +163,8 @@ if ($id) {
         });
 
     </script>
+       
+
 
 </body>
 

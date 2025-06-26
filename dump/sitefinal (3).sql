@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25/06/2025 às 21:49
+-- Tempo de geração: 26/06/2025 às 03:05
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,7 +44,9 @@ CREATE TABLE `agendas` (
 
 INSERT INTO `agendas` (`id`, `usuario_id`, `local_id`, `data`, `arquivo`, `observacao`, `horario`, `horariofin`) VALUES
 (81, 1, 1, '2025-06-03', NULL, 'fdfswdfwf', '08:20:00', '09:10:00'),
-(82, 1, 1, '2025-06-02', NULL, '', '11:00:00', '11:50:00');
+(82, 1, 1, '2025-06-02', NULL, '', '11:00:00', '11:50:00'),
+(85, 1, 5, '2025-06-26', NULL, 'aaa', '08:20:00', '09:10:00'),
+(86, 1, 5, '2025-06-24', NULL, '', '07:30:00', '08:20:00');
 
 -- --------------------------------------------------------
 
@@ -64,7 +66,8 @@ CREATE TABLE `albuns` (
 --
 
 INSERT INTO `albuns` (`id`, `nome`, `data`, `status`) VALUES
-(6, 'Desenvolvimento de Sistema', '2025-06-18', 1);
+(6, 'Desenvolvimento de Sistema', '2025-06-18', 1),
+(7, 'Teste de Album', '2025-06-26', 1);
 
 -- --------------------------------------------------------
 
@@ -77,6 +80,14 @@ CREATE TABLE `albuns_imagens` (
   `album_id` int(11) NOT NULL,
   `nome_arquivo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `albuns_imagens`
+--
+
+INSERT INTO `albuns_imagens` (`id`, `album_id`, `nome_arquivo`) VALUES
+(6, 7, 'uploads/685c7ea2ce844_6fab7d97b582930b5abca622b42e5802.gif'),
+(7, 7, 'uploads/685c7ea4be0e2_Hadda-3.jpg');
 
 -- --------------------------------------------------------
 
@@ -99,8 +110,7 @@ CREATE TABLE `cursos` (
 --
 
 INSERT INTO `cursos` (`id`, `nome`, `descricao`, `tipo`, `status`, `imagem`, `locais_ids`) VALUES
-(21, 'hgret', 'tygert', 0, 1, '685c448ae25de.jpg', '1,3,5,10,13'),
-(24, 'DEV', 'wdwd', 1, 1, '685c46d13379c.jpg', '1');
+(26, 'dawdawd', 'wdadawd', 1, 1, '685c7ffe76759.jpg', '3');
 
 -- --------------------------------------------------------
 
@@ -142,7 +152,8 @@ INSERT INTO `locais` (`id`, `nome`, `status`, `cor`) VALUES
 (3, 'Laboratório Desenho Técnico', 1, 'orange'),
 (5, 'Quadra', 1, 'red'),
 (10, 'Laboratório de Matemática', 1, 'green'),
-(13, 'Sala Notebooks', 1, '#000000');
+(13, 'Sala Notebooks', 0, '#000000'),
+(17, 'Sala de Cadeiras', 0, '');
 
 -- --------------------------------------------------------
 
@@ -164,7 +175,7 @@ CREATE TABLE `noticias` (
 --
 
 INSERT INTO `noticias` (`id`, `titulo`, `resumo`, `texto`, `status`, `imagem`) VALUES
-(32, 'erdfre', 'efdedfr', 'efdedf', 1, '685bfcc24ef5a.jpg');
+(33, 'a', 'a', 'a', 1, '685c7fdba6a38.jpg');
 
 -- --------------------------------------------------------
 
@@ -187,8 +198,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `nome`, `usuario`, `senha`, `cargo`, `status`) VALUES
 (1, 'teste', 'teste@gmail.com', '1324', 1, 1),
-(4, 'Joao', 'joao@gmail.com', '1234', 0, 1),
-(17, 'professor', 'professor@gmail.com', '4231', 0, 1);
+(4, 'Joao', 'joao@gmail.com', '1324', 0, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -247,37 +257,37 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `agendas`
 --
 ALTER TABLE `agendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT de tabela `albuns`
 --
 ALTER TABLE `albuns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `albuns_imagens`
 --
 ALTER TABLE `albuns_imagens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de tabela `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de tabela `locais`
 --
 ALTER TABLE `locais`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de tabela `noticias`
 --
 ALTER TABLE `noticias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`

@@ -1,5 +1,16 @@
 <?php
-include("login-validar.php");
+include("conexao.php");
+
+$usuario_id = $_SESSION['id'] ?? null;
+$cargo = null;
+
+if ($usuario_id) {
+    $sql = $conn->prepare("SELECT cargo FROM usuarios WHERE id = :id");
+    $sql->bindValue(":id", $usuario_id);
+    $sql->execute();
+    $usuario = $sql->fetch(PDO::FETCH_ASSOC);
+    $cargo = $usuario['cargo'] ?? null;
+}
 ?>
 <div id="main-wrapper">
 
@@ -61,6 +72,29 @@ include("login-validar.php");
 		</div>
 	</div>
 
+	<?php if ($cargo == 0): ?>
+    <!-- Menu com abas restritas -->
+    <div class="deznav">
+		<div class="deznav-scroll">
+			<ul class="metismenu" id="menu">
+				<li>
+					<h4 style="color: white;" class="text-center nav-text">SISTEMA DE <br> AGENDAMENTOS</h4>
+				</li>
+				<li>
+					<a href="index.php" aria-expanded="false">
+						<span class="nav-text">início</span>
+					</a>
+				</li>
+				<li>
+					<a href="sair.php" aria-expanded="false">
+						<span class="nav-text">Sair</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<?php endif; ?>
+	<?php if ($cargo =! 0): ?>
 	<div class="deznav">
 
 		<div class="deznav-scroll">
@@ -74,13 +108,11 @@ include("login-validar.php");
 						<span class="nav-text">início</span>
 					</a>
 				</li>
-				<?php if ($_SESSION['id'] != 0): ?>
-					<li>
-						<a href="usuarios-pesquisar.php" aria-expanded="false">
-							<span class="nav-text">Usuários</span>
-						</a>
-					</li>
-				<?php endif; ?>
+				<li>
+					<a href="usuarios-pesquisar.php" aria-expanded="false">
+						<span class="nav-text">Usuários</span>
+					</a>
+				</li>
 				<li>
 					<a href="locais-pesquisar.php" class="" aria-expanded="false">
 						<span class="nav-text">Locais</span>
@@ -112,3 +144,4 @@ include("login-validar.php");
 		</div>
 
 	</div>
+	<?php endif; ?>
