@@ -45,7 +45,7 @@ if ($id) {
                                 echo $dados["id"];
                             } ?>">
 
-                            <!-- COLUNA ESQUERDA: Local, Data, Observação -->
+                            <!-- COLUNA ESQUERDA -->
                             <div class="col-12 d-flex flex-column justify-content-start">
 
                                 <div class="row">
@@ -64,7 +64,7 @@ if ($id) {
                                             ?>
                                         </select>
                                     </div>
-
+                                    
                                     <!-- Data -->
                                     <div class="col-md-3">
                                         <label for="data">Data:</label>
@@ -72,14 +72,13 @@ if ($id) {
                                             echo date('Y-m-d', strtotime($dados['data'])); ?>">
                                     </div>
 
-                                    <!-- COLUNA DIREITA: Horários ocupando toda a altura -->
+                                    <!-- COLUNA DIREITA: -->
                                     <div class="col-md-6 d-flex flex-column justify-content-start" id="modalHorarios">
                                         <label for="horariosSelect">Horários:</label>
                                         <select class="form-control h-100" id="horariosSelect" name="txtHorario"
                                             multiple>
                                         </select>
                                     </div>
-
                                 </div>
 
                                 <!-- Observação -->
@@ -91,9 +90,7 @@ if ($id) {
                                             rows="8"><?php if ($id)
                                                 echo $dados["observacao"]; ?></textarea>
                                     </div>
-
                                 </div>
-
                             </div>
                     </div>
 

@@ -94,7 +94,7 @@ if ($usuario_id) {
 		</div>
 	</div>
 	<?php endif; ?>
-	<?php if ($cargo =! 0): ?>
+	<?php if ($cargo !== 0): ?>
 	<div class="deznav">
 
 		<div class="deznav-scroll">
@@ -134,13 +134,6 @@ if ($usuario_id) {
 					</a>
 				</li>
 			</ul>
-			<!--
-			<div class="copyright">
-				<p>Yash Admin Sales Management System © <span class="current-year">2024</span> All Rights Reserved</p>
-				<p>Made with <span class="heart"></span> by DexignZone</p>
-			</div>
--->
-
 		</div>
 
 	</div>
